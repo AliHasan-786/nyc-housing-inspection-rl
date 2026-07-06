@@ -1,0 +1,31 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+coverage.xml
+.coverage
+htmlcov/
+
+# Generated and source data
+data/raw/
+data/bronze/
+data/silver/
+data/gold/
+artifacts/
+models/
+
+# Web
+web/.next/
+web/node_modules/
+web/out/
+
+# Editors
+.idea/
+.vscode/
