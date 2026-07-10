@@ -99,6 +99,7 @@ the committed [data manifest](data/manifests/2026-07-06.json) preserves its line
 - [Roadmap and sprint acceptance criteria](docs/project/roadmap.md)
 - [Coursework evidence audit](docs/audit/coursework-audit.md)
 - [Research methodology](docs/research/methodology.md)
+- [Restricted research-materials policy](docs/research/restricted-materials.md)
 - [Data sources and proposed joins](docs/data/data-sources.md)
 - [First real AHV cohort profile](docs/data/ahv-cohort-2026-07-06.md)
 - [System architecture](docs/architecture/system-design.md)

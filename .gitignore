@@ -20,6 +20,8 @@ data/silver/
 data/gold/
 artifacts/
 models/
+private/
+tmp/
 
 # Web
 web/.next/

@@ -113,3 +113,11 @@ Every published metric must be regenerable from a clean environment with:
 - deterministic seed handling where supported;
 - automated tests; and
 - one command that writes machine-readable metrics before plots or prose.
+
+## 11. Restricted authorship material
+
+The project author is a co-author on an unpublished group draft concerning equitable municipal
+inspection prioritization. That source is intentionally excluded from the public repository: it
+explicitly prohibits citation and distribution. It may inform high-level research questions, but
+it cannot substantiate public results, data definitions, or deployment claims. See
+[Restricted Research Materials](restricted-materials.md).
