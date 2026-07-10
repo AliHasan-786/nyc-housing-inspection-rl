@@ -18,6 +18,14 @@ Civic Inspection Lab will let a user:
 
 The intended audience is technical recruiters, operations-research practitioners, public-interest technologists, and curious non-specialists. The interface will explain the work without hiding the research limitations.
 
+## Published research foundation
+
+Ali Hasan is a co-author of the published arXiv paper [*Scaling the Queue: Reinforcement
+Learning for Equitable Call Classification Capacity in NYC Municipal Complaint
+Systems*](https://arxiv.org/abs/2605.06482). The paper is included with its citation under
+[docs/papers](docs/papers/README.md). Civic Inspection Lab is a reproducible, interactive
+implementation extension; it does not claim to reproduce the paper's multi-domain results.
+
 ## Research question
 
 Can a capacity-constrained inspection policy improve timely discovery of actionable building violations without increasing geographic or demographic disparity, when evaluated on temporally held-out data and in a simulator calibrated only with information available at decision time?
@@ -99,6 +107,8 @@ the committed [data manifest](data/manifests/2026-07-06.json) preserves its line
 - [Roadmap and sprint acceptance criteria](docs/project/roadmap.md)
 - [Coursework evidence audit](docs/audit/coursework-audit.md)
 - [Research methodology](docs/research/methodology.md)
+- [Published research foundation](docs/research/published-foundation.md)
+- [Published paper and citation](docs/papers/README.md)
 - [Restricted research-materials policy](docs/research/restricted-materials.md)
 - [Data sources and proposed joins](docs/data/data-sources.md)
 - [First real AHV cohort profile](docs/data/ahv-cohort-2026-07-06.md)

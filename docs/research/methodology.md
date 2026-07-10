@@ -116,8 +116,8 @@ Every published metric must be regenerable from a clean environment with:
 
 ## 11. Restricted authorship material
 
-The project author is a co-author on an unpublished group draft concerning equitable municipal
-inspection prioritization. That source is intentionally excluded from the public repository: it
-explicitly prohibits citation and distribution. It may inform high-level research questions, but
-it cannot substantiate public results, data definitions, or deployment claims. See
-[Restricted Research Materials](restricted-materials.md).
+The project author is a co-author of a published arXiv paper on equitable municipal complaint
+classification; it is included under [Published Research Paper](../papers/README.md). An earlier
+group draft remains intentionally excluded because it explicitly prohibits citation and
+distribution. Neither source substitutes for the portfolio project's own reproducible data,
+evaluation artifacts, or deployment evidence. See [Restricted Research Materials](restricted-materials.md).
