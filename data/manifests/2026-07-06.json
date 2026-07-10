@@ -1,0 +1,139 @@
+{
+  "format_version": 1,
+  "generated_at": "2026-07-10T04:30:17.500591+00:00",
+  "generated_files": {
+    "artifacts/data/2026-07-06/ahv-cohort-data-card.md": {
+      "bytes": 1835,
+      "sha256": "0f5571b5e5655480336eb0b60655716fba0fc38fa8bd1a3c457092f2774a8925"
+    },
+    "artifacts/data/2026-07-06/ahv-cohort-profile.json": {
+      "bytes": 591,
+      "sha256": "40208c80bfd65ab5f2730b880d278c291e96e77471e3e1d29c4dc2c5c547ec7b"
+    },
+    "data/bronze/2026-07-06/ahv_311.parquet": {
+      "bytes": 46384,
+      "row_count": 782,
+      "sha256": "884f5cb1e22921980fc0ae247dad8c81816a78b7874a35f13e3148ac2ebe12e7"
+    },
+    "data/bronze/2026-07-06/ahv_permits.parquet": {
+      "bytes": 169292,
+      "row_count": 14245,
+      "sha256": "9900f8fb5aaf178efa1be02f54021df9740b67acfee5f94d11fce1e16348d085"
+    },
+    "data/bronze/2026-07-06/disposition_codes.parquet": {
+      "bytes": 3666,
+      "row_count": 160,
+      "sha256": "270df8530f5e3b0aa23cc06942d6eaa8146f22709c432464fb459aba165cffbd"
+    },
+    "data/bronze/2026-07-06/dob_4x.parquet": {
+      "bytes": 26829,
+      "row_count": 774,
+      "sha256": "f7f2c9139313ffa4b1d88bf0af751e979c6c70657937efbee9cc618bc263620a"
+    },
+    "data/silver/2026-07-06/ahv_complaints.parquet": {
+      "bytes": 64785,
+      "row_count": 782,
+      "sha256": "27cc11341b39009cb1906c1be5c6f0032b8586a8b15a3483975bf39362b93618"
+    }
+  },
+  "raw_sources": {
+    "ahv_311": {
+      "dataset_id": "erm2-nwe9",
+      "manifest_sha256": "2a6934120017b8eb5de9b9c3e7f7c79fd2a95b5ef41c0a8016d46b28f9bf6d5c",
+      "parts": [
+        {
+          "file": "part-00000.jsonl",
+          "rows": 782,
+          "sha256": "92e294817bea97be873d59d7918e20bad4d2b4c0738edc0b92c5c9ce0f7bcef6"
+        }
+      ],
+      "row_count": 782,
+      "source_url": "https://data.cityofnewyork.us/d/erm2-nwe9"
+    },
+    "ahv_permits": {
+      "dataset_id": "g76y-dcqj",
+      "manifest_sha256": "f46a529525492d8b5298460bae2856d1eb3c290efd9f8217a152d9d60723a1fb",
+      "parts": [
+        {
+          "file": "part-00000.jsonl",
+          "rows": 1080,
+          "sha256": "7faf7313262dd0e922700802ba5f08ed1e5a05dd483144ae34ba8e545243aca4"
+        },
+        {
+          "file": "part-00001.jsonl",
+          "rows": 6456,
+          "sha256": "d9955d3f9d826e2e4e1ed9e386245d0f2af310bc7ecbdabe615f110bfef9feb0"
+        },
+        {
+          "file": "part-00002.jsonl",
+          "rows": 3982,
+          "sha256": "1a571a74902e6b8e71caaa982839e12fa42231137412fbd47400e146f95218bb"
+        },
+        {
+          "file": "part-00003.jsonl",
+          "rows": 391,
+          "sha256": "4d829b7acc597ae5ad029fca561d8e1823cdb9ad771a9c403cbdde2b706a775e"
+        },
+        {
+          "file": "part-00004.jsonl",
+          "rows": 468,
+          "sha256": "9226b9eb4bb69928eba59766eec2e1d09d1d11e0b1514120c8bd8031ff16ed2d"
+        },
+        {
+          "file": "part-00005.jsonl",
+          "rows": 484,
+          "sha256": "00eec37f9d93816e5f258a3b3d9aa4072155c4b13d43de4424255055d0c12f46"
+        },
+        {
+          "file": "part-00006.jsonl",
+          "rows": 285,
+          "sha256": "aa0e8a61d33983aeef929e75b9ef496fe8a854e172d65fbc05bc26ea21201c57"
+        },
+        {
+          "file": "part-00007.jsonl",
+          "rows": 324,
+          "sha256": "c4c8cd5b9f359d0987ff125238b98c91f04c4fd32832ea91cc6d8aa7d056a501"
+        },
+        {
+          "file": "part-00008.jsonl",
+          "rows": 250,
+          "sha256": "9ba9e7af650a1d9e0d78f46e6cb9497a7bb9b6f8d7cca89d069b873f682db8c7"
+        },
+        {
+          "file": "part-00009.jsonl",
+          "rows": 525,
+          "sha256": "6a438013153aace3efb503afccc66bfbca0dd118e219144337b2b867092e4dcc"
+        }
+      ],
+      "row_count": 14245,
+      "source_url": "https://data.cityofnewyork.us/d/g76y-dcqj"
+    },
+    "disposition_codes": {
+      "dataset_id": "6v9u-ndjg",
+      "manifest_sha256": "6bcaa5d07e230175b6465ddf50e7b706f14b96d88507f54487d6459ec265f8ac",
+      "parts": [
+        {
+          "file": "part-00000.jsonl",
+          "rows": 160,
+          "sha256": "eed9fe4e0b8187d9b0a606669c9daa0f084cfb1d60e90548acf3556f2819be3c"
+        }
+      ],
+      "row_count": 160,
+      "source_url": "https://data.cityofnewyork.us/d/6v9u-ndjg"
+    },
+    "dob_4x": {
+      "dataset_id": "eabe-havv",
+      "manifest_sha256": "4feda68e1d38ddea9116553a8ef3ba9d425b93934c4cef854340685f5dc69aae",
+      "parts": [
+        {
+          "file": "part-00000.jsonl",
+          "rows": 774,
+          "sha256": "6f8c27e6dfc14b75bfc5e7d460500b0fa39d3e470985a6378442dc0ebc2a9a66"
+        }
+      ],
+      "row_count": 774,
+      "source_url": "https://data.cityofnewyork.us/d/eabe-havv"
+    }
+  },
+  "snapshot_date": "2026-07-06"
+}

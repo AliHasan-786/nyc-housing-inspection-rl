@@ -83,7 +83,16 @@ uv run ruff check .
 uv run mypy src
 ```
 
-The package is intentionally small in Sprint 0. Sprint 1 adds the reproducible NYC data pipeline.
+To fetch a new local source snapshot and build its verified analytical layers:
+
+```bash
+uv run civic-inspection fetch --snapshot-date YYYY-MM-DD --source all
+uv run civic-inspection verify --snapshot-date YYYY-MM-DD --source all
+uv run civic-inspection build --snapshot-date YYYY-MM-DD
+```
+
+The package includes the Sprint 1 reproducible NYC data pipeline. Raw data remains local;
+the committed [data manifest](data/manifests/2026-07-06.json) preserves its lineage.
 
 ## Documentation
 
@@ -91,6 +100,7 @@ The package is intentionally small in Sprint 0. Sprint 1 adds the reproducible N
 - [Coursework evidence audit](docs/audit/coursework-audit.md)
 - [Research methodology](docs/research/methodology.md)
 - [Data sources and proposed joins](docs/data/data-sources.md)
+- [First real AHV cohort profile](docs/data/ahv-cohort-2026-07-06.md)
 - [System architecture](docs/architecture/system-design.md)
 - [Project learning and interview guide](docs/learning-guide.md)
 - [Decision records](docs/architecture/decisions/)

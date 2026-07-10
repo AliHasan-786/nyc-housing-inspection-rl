@@ -11,4 +11,5 @@ def test_dispatch_actions_are_stable_integer_codes() -> None:
 
 
 def test_unresolved_outcomes_are_not_negative_labels() -> None:
-    assert OutcomeLabel.UNRESOLVED != OutcomeLabel.NO_ACTION
+    assert OutcomeLabel.UNRESOLVED.value == "unresolved"
+    assert OutcomeLabel.NO_ACTION.value == "no_action"

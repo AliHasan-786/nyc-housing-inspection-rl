@@ -18,7 +18,14 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+  "httpx>=0.28",
+  "polars>=1.26",
+  "pydantic>=2.11",
+]
+
+[project.scripts]
+civic-inspection = "nyc_housing_rl.cli:main"
 
 [project.optional-dependencies]
 dev = [
@@ -32,7 +39,7 @@ dev = [
 packages = ["src/nyc_housing_rl"]
 
 [tool.pytest.ini_options]
-addopts = "--strict-config --strict-markers --cov=nyc_housing_rl --cov-report=term-missing"
+addopts = "--strict-config --strict-markers --cov=nyc_housing_rl --cov-report=term-missing --cov-fail-under=70"
 testpaths = ["tests"]
 
 [tool.ruff]

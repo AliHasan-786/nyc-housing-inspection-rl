@@ -31,6 +31,8 @@ All sources below are official NYC public datasets. Source schemas are validated
 - Page: https://data.cityofnewyork.us/d/g76y-dcqj
 - Role: permitted work interval, BIN/BBL, permit status, variance reason, nearby residence, enclosure, demolition, and crane indicators.
 - Candidate join: BIN or BBL plus interval overlap at complaint creation time.
+- Source grain: one permit number may contain multiple authorized time intervals; the
+  validated key is permit number plus interval start and end.
 
 ## Candidate enrichment sources
 
@@ -46,6 +48,20 @@ gold     Point-in-time decision rows and simulator calibration tables
 ```
 
 Raw data is not committed to Git. Small, license-compatible fixtures are hand-crafted or deterministically sampled and de-identified for tests.
+
+## Reproducible commands
+
+```bash
+uv run civic-inspection fetch --snapshot-date YYYY-MM-DD --source all
+uv run civic-inspection verify --snapshot-date YYYY-MM-DD --source all
+uv run civic-inspection build --snapshot-date YYYY-MM-DD
+```
+
+`fetch` writes JSONL source parts and a manifest under `data/raw/`. `verify` confirms
+the exact part hashes and row counts. `build` validates source contracts, writes bronze and
+silver Parquet layers locally, produces a cohort data card, and records content hashes in a
+tracked manifest. The 2026-07-06 profile is documented in
+[AHV Cohort Profile](ahv-cohort-2026-07-06.md).
 
 ## Join quality requirements
 
