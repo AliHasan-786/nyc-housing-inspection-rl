@@ -1,0 +1,10 @@
+{
+  "name": "ahv_baseline_capacity_1",
+  "snapshot_date": "2026-07-06",
+  "daily_capacity": 1,
+  "max_drain_days": 30,
+  "access_probability": 1.0,
+  "policies": ["fifo_routine", "always_expedite", "never_inspect", "random", "risk_tier"],
+  "risk_tier": {"expedite_threshold": 0.4, "defer_threshold": 0.15},
+  "interpretation": "Counterfactual simulation only. The risk tier is a transparent heuristic, not a trained predictive model."
+}

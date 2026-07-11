@@ -2,6 +2,15 @@
 
 All notable project changes are documented here by sprint.
 
+## Sprint 2 - 2026-07-11
+
+- Added a Gymnasium-compatible capacity-constrained inspection-triage simulator.
+- Added defer, routine, and expedited actions, persistent backlog, decision/outcome logs, and
+  group-sliced service metrics.
+- Added FIFO, always-expedite, never-inspect, random, and transparent risk-tier baselines.
+- Added a leakage-safe bridge from the silver AHV cohort into simulator scenarios and documented
+  product/T&S constraints for the future Policy Lab.
+
 ## Sprint 1 - 2026-07-06
 
 - Replaced the synthetic training-data premise with a reproducible Socrata ingestion pipeline.
