@@ -54,9 +54,12 @@ def main() -> int:
     source = Path(args.input)
     frame = pl.scan_csv(source, infer_schema_length=0)
 
+    date_format = "%m/%d/%Y"
     parsed = frame.with_columns(
-        pl.col("Date Entered").str.strptime(pl.Date, "%m/%d/%Y", strict=False).alias("entered"),
-        pl.col("Inspection Date").str.strptime(pl.Date, "%m/%d/%Y", strict=False).alias("inspected"),
+        pl.col("Date Entered").str.strptime(pl.Date, date_format, strict=False).alias("entered"),
+        pl.col("Inspection Date")
+        .str.strptime(pl.Date, date_format, strict=False)
+        .alias("inspected"),
     )
 
     total = parsed.select(pl.len()).collect().item()
