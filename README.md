@@ -77,7 +77,7 @@ tests/               Unit and later integration tests
 configs/             Versioned experiment and policy assumptions
 data/                Data contracts and local-only snapshot locations
 docs/                Audit, methodology, architecture, and learning guide
-web/                 Interactive application (planned)
+web/                 Next.js Policy Lab experience
 ```
 
 ## Development

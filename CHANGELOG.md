@@ -2,6 +2,16 @@
 
 All notable project changes are documented here by sprint.
 
+## Policy Lab Alpha - 2026-07-11
+
+- Added a production-buildable Next.js public case-study experience.
+- Added interactive staffing, safety-priority, and policy-posture controls with clearly labeled
+  deterministic simulated preview metrics.
+- Added Product Management and Trust & Safety framing: user workflows, review requirement,
+  limitations, policy logs, and guardrails.
+- Added a typed future FastAPI policy-run contract so browser-local preview can be replaced by
+  versioned simulation artifacts without changing the experience layer.
+
 ## Sprint 2 - 2026-07-11
 
 - Added a Gymnasium-compatible capacity-constrained inspection-triage simulator.

@@ -31,6 +31,11 @@ The Next.js application will contain four connected views:
 3. **Policy Lab:** staffing and objective controls with live replay.
 4. **Research Bench:** algorithms, uncertainty, ablations, and failure modes.
 
+The initial public experience is implemented as the Policy Lab landing page. It has a deterministic
+browser-local preview for staffing and policy-posture interactions, always labeled as simulated.
+`web/src/lib/policy-api.ts` defines the typed future boundary to FastAPI; production results must
+be loaded from versioned experiment artifacts, never hand-entered UI values.
+
 ## Proposed repository layout
 
 ```text
