@@ -102,6 +102,14 @@ uv run civic-inspection build --snapshot-date YYYY-MM-DD
 The package includes the Sprint 1 reproducible NYC data pipeline. Raw data remains local;
 the committed [data manifest](data/manifests/2026-07-06.json) preserves its lineage.
 
+The Sprint 3 cohort-widening decision is grounded in the full complaint universe:
+[`scripts/profile_complaint_universe.py`](scripts/profile_complaint_universe.py) profiles the
+entire *DOB Complaints Received* dataset — **3,106,954 complaints, 1989–2026** — from the
+official bulk export (checksummed, raw data local-only) into a
+[data card](docs/data/dob-complaint-universe.md) covering per-year volume, category, unit,
+status, and disposition distributions. The 782-complaint AHV cohort is the after-hours slice
+of this universe, not the ceiling of the project.
+
 ## Documentation
 
 - [Roadmap and sprint acceptance criteria](docs/project/roadmap.md)
