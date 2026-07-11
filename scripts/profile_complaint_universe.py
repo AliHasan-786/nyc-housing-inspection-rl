@@ -29,7 +29,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import polars as pl
@@ -99,7 +99,7 @@ def main() -> int:
     ]
 
     summary = {
-        "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "generatedAt": datetime.now(UTC).strftime("%Y-%m-%d"),
         "source": {
             "dataset": "DOB Complaints Received (NYC Open Data, eabe-havv)",
             "file": source.name,
