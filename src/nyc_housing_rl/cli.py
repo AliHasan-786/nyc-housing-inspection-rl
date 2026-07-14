@@ -9,6 +9,8 @@ from collections.abc import Iterable
 from datetime import date
 from pathlib import Path
 
+from nyc_housing_rl.api.schemas import PolicyRunRequest
+from nyc_housing_rl.api.service import run_scenario
 from nyc_housing_rl.data.bronze import build_bronze
 from nyc_housing_rl.data.client import SocrataClient
 from nyc_housing_rl.data.lineage import build_lineage_manifest
@@ -45,6 +47,27 @@ def build_parser() -> argparse.ArgumentParser:
     build.add_argument("--snapshot-date", type=date.fromisoformat, required=True)
     build.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
 
+    run = subparsers.add_parser("run-policy", help="run and archive one bounded simulator scenario")
+    run.add_argument("--snapshot-date", type=date.fromisoformat, required=True)
+    run.add_argument(
+        "--policy",
+        choices=[
+            "fifo_routine",
+            "always_expedite",
+            "never_inspect",
+            "random",
+            "risk_tier",
+            "safety_floor",
+        ],
+        default="safety_floor",
+    )
+    run.add_argument("--daily-capacity", type=int, default=2)
+    run.add_argument("--access-probability", type=float, default=1.0)
+    run.add_argument("--safety-priority", type=float, default=0.65)
+    run.add_argument("--seed", type=int, default=0)
+    run.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
+    run.add_argument("--artifact-root", type=Path, default=Path("artifacts"))
+
     return parser
 
 
@@ -56,6 +79,8 @@ def main(argv: list[str] | None = None) -> int:
         return _verify(args)
     if args.command == "build":
         return _build(args)
+    if args.command == "run-policy":
+        return _run_policy(args)
     raise AssertionError("unreachable")
 
 
@@ -124,6 +149,32 @@ def _build(args: argparse.Namespace) -> int:
                 "profile": str(profile_json),
                 "card": str(profile_markdown),
                 "lineage": str(lineage),
+            }
+        )
+    )
+    return 0
+
+
+def _run_policy(args: argparse.Namespace) -> int:
+    request = PolicyRunRequest(
+        snapshotDate=args.snapshot_date,
+        policy=args.policy,
+        dailyCapacity=args.daily_capacity,
+        accessProbability=args.access_probability,
+        safetyPriority=args.safety_priority,
+        seed=args.seed,
+    )
+    artifact_id, result = run_scenario(
+        request, data_root=args.data_root, artifact_root=args.artifact_root
+    )
+    print(
+        json.dumps(
+            {
+                "artifact_id": artifact_id,
+                "policy": result["policy"],
+                "total_reward": result["total_reward"],
+                "inspected": result["inspected"],
+                "actionable_found": result["actionable_found"],
             }
         )
     )

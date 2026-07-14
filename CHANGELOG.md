@@ -2,6 +2,16 @@
 
 All notable project changes are documented here by sprint.
 
+## Sprint 3 - 2026-07-14
+
+- Added a tested FastAPI Policy Lab service and CLI for bounded, reproducible scenario runs.
+- Added stable, inspectable artifacts with scenario manifests, aggregate metrics, and row-level
+  decision/outcome Parquet files.
+- Added a safety-floor baseline that makes a no-silent-deferral safeguard testable alongside
+  efficiency-oriented baselines.
+- Enforced request bounds and returned explicit counterfactual, fairness, and human-oversight
+  limitations with every API response.
+
 ## Policy Lab Alpha - 2026-07-11
 
 - Added a production-buildable Next.js public case-study experience.

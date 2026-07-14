@@ -20,7 +20,11 @@ Gymnasium-compatible environments expose queue and capacity dynamics. Policy ada
 
 ### Service layer
 
-FastAPI will serve versioned scenario definitions, policies, simulation streams, metrics, and explainability payloads. Long experiments run as jobs; the interactive demo uses precomputed policies and bounded simulations.
+FastAPI now serves bounded, versioned policy-run scenarios at `POST /v1/policy-runs` and a health
+endpoint. It validates capacity, access probability, seed, policy, and data snapshot; it writes a
+stable-ID artifact containing a manifest, aggregate metrics, decisions, and outcomes. The endpoint
+is deliberately not a dispatch interface. Long experiments will run as jobs; the interactive demo
+uses bounded simulations.
 
 ### Experience layer
 

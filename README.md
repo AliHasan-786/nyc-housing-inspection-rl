@@ -2,7 +2,7 @@
 
 An interactive reinforcement-learning research project for allocating New York City building inspections under limited capacity, uncertain outcomes, and explicit equity constraints.
 
-> **Status:** Sprint 0 - foundation and research audit. The original coursework is preserved separately. No model in this repository is ready for operational use.
+> **Status:** Sprint 3 — reproducible Policy Lab API. The original coursework is preserved separately. No model in this repository is ready for operational use.
 
 ## What this project is becoming
 
@@ -97,10 +97,22 @@ To fetch a new local source snapshot and build its verified analytical layers:
 uv run civic-inspection fetch --snapshot-date YYYY-MM-DD --source all
 uv run civic-inspection verify --snapshot-date YYYY-MM-DD --source all
 uv run civic-inspection build --snapshot-date YYYY-MM-DD
+uv run civic-inspection run-policy --snapshot-date YYYY-MM-DD --policy safety_floor --daily-capacity 2
 ```
 
 The package includes the Sprint 1 reproducible NYC data pipeline. Raw data remains local;
 the committed [data manifest](data/manifests/2026-07-06.json) preserves its lineage.
+
+To serve the bounded local Policy Lab API (which writes ignored, inspectable artifacts under
+`artifacts/`), run:
+
+```bash
+uv run uvicorn nyc_housing_rl.api.app:app --reload
+```
+
+Set `NEXT_PUBLIC_POLICY_API_BASE_URL=http://127.0.0.1:8000` in `web/.env.local` to connect the
+browser experience. Each response is explicitly counterfactual and includes the snapshot, policy,
+scenario identity, group service slices, and limitations.
 
 ## Documentation
 

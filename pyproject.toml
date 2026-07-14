@@ -19,10 +19,12 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
+  "fastapi>=0.116",
   "gymnasium>=1.1",
   "httpx>=0.28",
   "polars>=1.26",
   "pydantic>=2.11",
+  "uvicorn[standard]>=0.35",
 ]
 
 [project.scripts]

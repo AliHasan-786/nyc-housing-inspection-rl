@@ -1,14 +1,16 @@
-export type PolicyName = "fifo_routine" | "always_expedite" | "never_inspect" | "random" | "risk_tier";
+export type PolicyName = "fifo_routine" | "always_expedite" | "never_inspect" | "random" | "risk_tier" | "safety_floor";
 
 export type ScenarioRequest = {
   snapshotDate: string;
   dailyCapacity: number;
   accessProbability: number;
+  safetyPriority: number;
   policy: PolicyName;
   seed: number;
 };
 
 export type PolicyResult = {
+  artifactId: string;
   policy: PolicyName;
   snapshotDate: string;
   isCounterfactual: true;

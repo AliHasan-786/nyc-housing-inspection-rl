@@ -11,7 +11,8 @@ from nyc_housing_rl.simulation.environment import InspectionTriageEnv
 
 
 class Policy(Protocol):
-    name: str
+    @property
+    def name(self) -> str: ...
 
     def act(self, observation: np.ndarray) -> DecisionAction: ...
 

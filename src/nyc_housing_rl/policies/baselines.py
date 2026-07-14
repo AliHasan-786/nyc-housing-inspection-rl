@@ -63,3 +63,23 @@ class RiskTier:
         if risk_score <= self.defer_threshold:
             return DecisionAction.DEFER
         return DecisionAction.ROUTINE
+
+
+@dataclass(frozen=True, slots=True)
+class SafetyFloor:
+    """A transparent policy that never silently dismisses a complaint.
+
+    This is a product/Trust & Safety baseline, not a claim that the threshold is a
+    validated safety rule. It exists to make the cost of a non-deferral safeguard
+    legible in scenario comparisons.
+    """
+
+    expedite_threshold: float = 0.4
+    name: str = "safety_floor"
+
+    def act(self, observation: np.ndarray) -> DecisionAction:
+        risk_score = float(observation[0])
+        permit_overlap = bool(observation[2])
+        if risk_score >= self.expedite_threshold and not permit_overlap:
+            return DecisionAction.EXPEDITED
+        return DecisionAction.ROUTINE
