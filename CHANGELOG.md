@@ -2,6 +2,11 @@
 
 All notable project changes are documented here by sprint.
 
+## Verification correction - 2026-07-16
+
+- Withdrew hand-authored local Policy Lab metric values when no versioned API scenario is available.
+- Recorded independent verification findings and benchmark requirements for the next research sprint.
+
 ## Sprint 3 - 2026-07-14
 
 - Added a tested FastAPI Policy Lab service and CLI for bounded, reproducible scenario runs.
