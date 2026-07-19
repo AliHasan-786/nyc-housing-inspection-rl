@@ -114,6 +114,14 @@ Set `NEXT_PUBLIC_POLICY_API_BASE_URL=http://127.0.0.1:8000` in `web/.env.local` 
 browser experience. Each response is explicitly counterfactual and includes the snapshot, policy,
 scenario identity, group service slices, and limitations.
 
+The Sprint 3 cohort-widening decision is grounded in the full complaint universe:
+[`scripts/profile_complaint_universe.py`](scripts/profile_complaint_universe.py) profiles the
+entire *DOB Complaints Received* dataset — **3,106,954 complaints, 1989–2026** — from the
+official bulk export (checksummed, raw data local-only) into a
+[data card](docs/data/dob-complaint-universe.md) covering per-year volume, category, unit,
+status, and disposition distributions. The 782-complaint AHV cohort is the after-hours slice
+of this universe, not the ceiling of the project.
+
 ## Documentation
 
 - [Roadmap and sprint acceptance criteria](docs/project/roadmap.md)

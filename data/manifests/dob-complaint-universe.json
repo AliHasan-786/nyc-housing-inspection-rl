@@ -1,0 +1,392 @@
+{
+  "generatedAt": "2026-07-11",
+  "source": {
+    "dataset": "DOB Complaints Received (NYC Open Data, eabe-havv)",
+    "file": "dob_complaints_full.csv",
+    "bytes": 347372384,
+    "sha256": "18a109b9bdf50a5b3fd738d6907439f2a9f0e740b2d6f240adb46b5ba738242d"
+  },
+  "totalComplaints": 3106954,
+  "dateRange": {
+    "first": "1988-12-30",
+    "last": "2026-07-11"
+  },
+  "inspectionDateShare": 0.9971,
+  "complaintsPerYear": [
+    {
+      "year": 1988,
+      "count": 1
+    },
+    {
+      "year": 1989,
+      "count": 22523
+    },
+    {
+      "year": 1990,
+      "count": 23317
+    },
+    {
+      "year": 1991,
+      "count": 23342
+    },
+    {
+      "year": 1992,
+      "count": 21184
+    },
+    {
+      "year": 1993,
+      "count": 21361
+    },
+    {
+      "year": 1994,
+      "count": 20005
+    },
+    {
+      "year": 1995,
+      "count": 21956
+    },
+    {
+      "year": 1996,
+      "count": 26571
+    },
+    {
+      "year": 1997,
+      "count": 33064
+    },
+    {
+      "year": 1998,
+      "count": 35558
+    },
+    {
+      "year": 1999,
+      "count": 36593
+    },
+    {
+      "year": 2000,
+      "count": 43520
+    },
+    {
+      "year": 2001,
+      "count": 45122
+    },
+    {
+      "year": 2002,
+      "count": 51990
+    },
+    {
+      "year": 2003,
+      "count": 62539
+    },
+    {
+      "year": 2004,
+      "count": 78209
+    },
+    {
+      "year": 2005,
+      "count": 108875
+    },
+    {
+      "year": 2006,
+      "count": 112954
+    },
+    {
+      "year": 2007,
+      "count": 129246
+    },
+    {
+      "year": 2008,
+      "count": 142982
+    },
+    {
+      "year": 2009,
+      "count": 127198
+    },
+    {
+      "year": 2010,
+      "count": 113511
+    },
+    {
+      "year": 2011,
+      "count": 103796
+    },
+    {
+      "year": 2012,
+      "count": 100305
+    },
+    {
+      "year": 2013,
+      "count": 95216
+    },
+    {
+      "year": 2014,
+      "count": 101591
+    },
+    {
+      "year": 2015,
+      "count": 101823
+    },
+    {
+      "year": 2016,
+      "count": 114454
+    },
+    {
+      "year": 2017,
+      "count": 126256
+    },
+    {
+      "year": 2018,
+      "count": 128846
+    },
+    {
+      "year": 2019,
+      "count": 135472
+    },
+    {
+      "year": 2020,
+      "count": 112548
+    },
+    {
+      "year": 2021,
+      "count": 119129
+    },
+    {
+      "year": 2022,
+      "count": 121448
+    },
+    {
+      "year": 2023,
+      "count": 131449
+    },
+    {
+      "year": 2024,
+      "count": 125148
+    },
+    {
+      "year": 2025,
+      "count": 119471
+    },
+    {
+      "year": 2026,
+      "count": 68381
+    }
+  ],
+  "topComplaintCategories": [
+    {
+      "value": "45",
+      "count": 423823,
+      "share": 0.1364
+    },
+    {
+      "value": "05",
+      "count": 416118,
+      "share": 0.1339
+    },
+    {
+      "value": "63",
+      "count": 148165,
+      "share": 0.0477
+    },
+    {
+      "value": "73",
+      "count": 124241,
+      "share": 0.04
+    },
+    {
+      "value": "30",
+      "count": 93267,
+      "share": 0.03
+    },
+    {
+      "value": "31",
+      "count": 83845,
+      "share": 0.027
+    },
+    {
+      "value": "04",
+      "count": 83065,
+      "share": 0.0267
+    },
+    {
+      "value": "59",
+      "count": 82416,
+      "share": 0.0265
+    },
+    {
+      "value": "83",
+      "count": 78996,
+      "share": 0.0254
+    },
+    {
+      "value": "6S",
+      "count": 67370,
+      "share": 0.0217
+    },
+    {
+      "value": "23",
+      "count": 60806,
+      "share": 0.0196
+    },
+    {
+      "value": "55",
+      "count": 57218,
+      "share": 0.0184
+    },
+    {
+      "value": "37",
+      "count": 54087,
+      "share": 0.0174
+    },
+    {
+      "value": "58",
+      "count": 53583,
+      "share": 0.0172
+    },
+    {
+      "value": "4B",
+      "count": 52167,
+      "share": 0.0168
+    }
+  ],
+  "statusCounts": [
+    {
+      "value": "CLOSED",
+      "count": 3086558,
+      "share": 0.9934
+    },
+    {
+      "value": "ACTIVE",
+      "count": 20396,
+      "share": 0.0066
+    }
+  ],
+  "topUnits": [
+    {
+      "value": "QNS.",
+      "count": 600345,
+      "share": 0.1932
+    },
+    {
+      "value": "BKLYN",
+      "count": 471150,
+      "share": 0.1516
+    },
+    {
+      "value": "ERT",
+      "count": 281044,
+      "share": 0.0905
+    },
+    {
+      "value": "MAN.",
+      "count": 273709,
+      "share": 0.0881
+    },
+    {
+      "value": "ELEVR",
+      "count": 263891,
+      "share": 0.0849
+    },
+    {
+      "value": "BRONX",
+      "count": 171590,
+      "share": 0.0552
+    },
+    {
+      "value": "ST.IS",
+      "count": 120749,
+      "share": 0.0389
+    },
+    {
+      "value": "SPOPS",
+      "count": 118324,
+      "share": 0.0381
+    },
+    {
+      "value": "CSE",
+      "count": 110130,
+      "share": 0.0354
+    },
+    {
+      "value": "Q-L",
+      "count": 86878,
+      "share": 0.028
+    }
+  ],
+  "topDispositionCodes": [
+    {
+      "value": "I2",
+      "count": 1212525,
+      "share": 0.3903
+    },
+    {
+      "value": "C2",
+      "count": 435982,
+      "share": 0.1403
+    },
+    {
+      "value": "A8",
+      "count": 343195,
+      "share": 0.1105
+    },
+    {
+      "value": "H1",
+      "count": 222052,
+      "share": 0.0715
+    },
+    {
+      "value": "L2",
+      "count": 161386,
+      "share": 0.0519
+    },
+    {
+      "value": "A1",
+      "count": 150371,
+      "share": 0.0484
+    },
+    {
+      "value": "A9",
+      "count": 141633,
+      "share": 0.0456
+    },
+    {
+      "value": "I1",
+      "count": 82014,
+      "share": 0.0264
+    },
+    {
+      "value": "B1",
+      "count": 70918,
+      "share": 0.0228
+    },
+    {
+      "value": "C4",
+      "count": 54061,
+      "share": 0.0174
+    },
+    {
+      "value": "Y2",
+      "count": 18288,
+      "share": 0.0059
+    },
+    {
+      "value": "P6",
+      "count": 17424,
+      "share": 0.0056
+    },
+    {
+      "value": "K1",
+      "count": 13341,
+      "share": 0.0043
+    },
+    {
+      "value": "I3",
+      "count": 11666,
+      "share": 0.0038
+    },
+    {
+      "value": "A3",
+      "count": 10693,
+      "share": 0.0034
+    }
+  ],
+  "interpretation": "Category, unit, and disposition codes are profiled as raw codes on purpose: mapping them to labels and outcome semantics is the documented Sprint 3 modeling decision, not a profiling step. Counts are complaint-level; one building can generate many complaints, so building-level dedup happens downstream."
+}
