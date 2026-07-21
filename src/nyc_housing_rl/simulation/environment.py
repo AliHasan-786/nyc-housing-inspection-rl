@@ -196,6 +196,7 @@ class InspectionTriageEnv(gym.Env[np.ndarray, int]):
             "actionable_missed": sum(
                 item.latent_outcome is OutcomeLabel.ACTIONABLE for item in self._deferred
             ),
+            "actionable_mean_delay_days": _actionable_mean_delay(self._outcomes),
             "mean_delay_days": float(np.mean([item["delay_days"] for item in self._outcomes]))
             if self._outcomes
             else 0.0,
@@ -204,3 +205,8 @@ class InspectionTriageEnv(gym.Env[np.ndarray, int]):
             "decisions": self._decisions,
             "outcomes": self._outcomes,
         }
+
+
+def _actionable_mean_delay(outcomes: list[dict[str, Any]]) -> float:
+    delays = [item["delay_days"] for item in outcomes if item["outcome"] == "actionable"]
+    return float(np.mean(delays)) if delays else 0.0
