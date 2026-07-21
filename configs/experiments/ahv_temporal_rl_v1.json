@@ -1,0 +1,36 @@
+{
+  "name": "ahv_temporal_rl_v1",
+  "data_snapshot": "2026-07-06",
+  "cohort": "AHV Inspection Unit; 782 records; observational administrative labels",
+  "temporal_split": {
+    "train_end": "2024-06-30",
+    "evaluation_start": "2024-07-01",
+    "rule": "strictly earlier complaint creation timestamps train policies; later timestamps evaluate them"
+  },
+  "seeds": [11, 23, 37, 53, 71],
+  "simulation": {
+    "daily_capacity": [1, 2],
+    "access_probability": [1.0, 0.8],
+    "max_drain_days": 30
+  },
+  "policies": [
+    "fifo_routine",
+    "random",
+    "risk_tier",
+    "safety_floor",
+    "contextual_bandit",
+    "tabular_q_learning"
+  ],
+  "metrics": [
+    "actionable_found",
+    "actionable_missed",
+    "actionable_mean_delay_days",
+    "mean_delay_days",
+    "max_queue_depth",
+    "borough_service_rate",
+    "borough_mean_delay_days"
+  ],
+  "uncertainty": "95% bootstrap confidence intervals across declared simulation seeds",
+  "equity_boundary": "Borough metrics are operational geography slices only. They are not demographic fairness metrics or proxies.",
+  "release_boundary": "No result becomes public-facing until the private Decision Brief confirms artifact lineage, temporal split, uncertainty, and limitations."
+}
