@@ -34,9 +34,9 @@ export default function Home() {
   const displayed = resultIsCurrent
     ? {
         found: `${remoteResult.actionableFound} / ${remoteResult.complaints}`,
-        delay: `${remoteResult.meanDelayDays.toFixed(1)} days`,
+        delay: remoteResult.meanDelayDays === null ? "Not comparable" : `${remoteResult.meanDelayDays.toFixed(1)} days`,
         coverage: `${(remoteResult.inspected / remoteResult.complaints * 100).toFixed(0)}%`,
-        review: `${remoteResult.actionableMissed}`,
+        review: `${remoteResult.actionableUnfound}`,
       }
     : { found: "—", delay: "—", coverage: "—", review: "—" };
 

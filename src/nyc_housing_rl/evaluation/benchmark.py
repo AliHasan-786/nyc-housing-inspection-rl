@@ -31,6 +31,10 @@ POLICY_NAMES = (
 METRICS = (
     "actionable_found",
     "actionable_missed",
+    "actionable_deferred",
+    "actionable_inaccessible",
+    "actionable_queued_unserved",
+    "actionable_unfound",
     "actionable_mean_delay_days",
     "mean_delay_days",
     "max_queue_depth",
@@ -54,8 +58,17 @@ def run_temporal_benchmark(*, config_path: Path, data_root: Path, artifact_root:
     snapshot = str(config["data_snapshot"])
     silver_path = data_root / "silver" / snapshot / "ahv_complaints.parquet"
     train_end = date.fromisoformat(str(config["temporal_split"]["train_end"]))
-    train, evaluation = temporal_split_from_silver(silver_path, train_end=train_end)
-    diagnostics = _diagnostics(silver_path, train_end=train_end, train=train, evaluation=evaluation)
+    evaluation_start = date.fromisoformat(str(config["temporal_split"]["evaluation_start"]))
+    train, evaluation = temporal_split_from_silver(
+        silver_path, train_end=train_end, evaluation_start=evaluation_start
+    )
+    diagnostics = _diagnostics(
+        silver_path,
+        train_end=train_end,
+        evaluation_start=evaluation_start,
+        train=train,
+        evaluation=evaluation,
+    )
     output = artifact_root / "benchmarks" / str(config["name"])
     output.mkdir(parents=True, exist_ok=True)
 
@@ -112,7 +125,7 @@ def run_temporal_benchmark(*, config_path: Path, data_root: Path, artifact_root:
     table_path = output / "summary.md"
     table_path.write_text(_markdown_table(summary), encoding="utf-8")
     manifest = {
-        "schema_version": "temporal-benchmark/v1",
+        "schema_version": "temporal-benchmark/v1.1",
         "benchmark": config["name"],
         "counterfactual": True,
         "data_snapshot": snapshot,
@@ -126,8 +139,8 @@ def run_temporal_benchmark(*, config_path: Path, data_root: Path, artifact_root:
         "inputs": {
             "config_sha256": _sha256(config_path),
             "silver_sha256": _sha256(silver_path),
-            "code_revision": _git_revision(),
-            "implementation_sha256": _implementation_hash(),
+            "git": _git_provenance(),
+            "source_tree": _source_tree_fingerprint(),
         },
         "outputs": {
             path.name: _sha256(path)
@@ -220,6 +233,8 @@ def _metrics_row(
         "seed": result["seed"],
         **scenario,
         **{metric: result[metric] for metric in METRICS},
+        "latent_actionable_total": result["latent_actionable_total"],
+        "actionable_accounting": json.dumps(result["actionable_accounting"], sort_keys=True),
         "borough_metrics": json.dumps(result["group_metrics"], sort_keys=True),
     }
 
@@ -239,9 +254,13 @@ def _summarize(rows: list[dict[str, Any]], *, seeds: list[int]) -> list[dict[str
                 if not selected:
                     continue
                 for metric in METRICS:
-                    values = np.array([float(row[metric]) for row in selected])
-                    low, high = _bootstrap_interval(
-                        values, seed=_summary_seed(policy, metric, capacity, access)
+                    values = [float(row[metric]) for row in selected if row[metric] is not None]
+                    low, high = (
+                        _bootstrap_interval(
+                            np.array(values), seed=_summary_seed(policy, metric, capacity, access)
+                        )
+                        if values
+                        else (None, None)
                     )
                     summaries.append(
                         {
@@ -249,10 +268,11 @@ def _summarize(rows: list[dict[str, Any]], *, seeds: list[int]) -> list[dict[str
                             "daily_capacity": capacity,
                             "access_probability": access,
                             "metric": metric,
-                            "mean": float(values.mean()),
+                            "mean": float(np.mean(values)) if values else None,
                             "ci95_low": low,
                             "ci95_high": high,
-                            "n_seeds": len(values),
+                            "n_seeds": len(selected),
+                            "n_valid_seeds": len(values),
                             "declared_seeds": seeds,
                         }
                     )
@@ -284,8 +304,12 @@ def _summarize_geography(rows: list[dict[str, Any]], *, seeds: list[int]) -> lis
     output: list[dict[str, Any]] = []
     for key, group in sorted(grouped.items()):
         for metric in ("service_rate", "mean_delay_days"):
-            values = np.array([float(row[metric]) for row in group])
-            low, high = _bootstrap_interval(values, seed=_summary_seed(*key, metric))
+            values = [float(row[metric]) for row in group if row[metric] is not None]
+            low, high = (
+                _bootstrap_interval(np.array(values), seed=_summary_seed(*key, metric))
+                if values
+                else (None, None)
+            )
             output.append(
                 {
                     "policy": key[0],
@@ -293,10 +317,11 @@ def _summarize_geography(rows: list[dict[str, Any]], *, seeds: list[int]) -> lis
                     "access_probability": key[2],
                     "borough": key[3],
                     "metric": metric,
-                    "mean": float(values.mean()),
+                    "mean": float(np.mean(values)) if values else None,
                     "ci95_low": low,
                     "ci95_high": high,
-                    "n_seeds": len(values),
+                    "n_seeds": len(group),
+                    "n_valid_seeds": len(values),
                     "declared_seeds": seeds,
                     "interpretation": (
                         "Operational geography only; not a demographic fairness measure or proxy."
@@ -315,14 +340,22 @@ def _bootstrap_interval(
 
 
 def _diagnostics(
-    silver_path: Path, *, train_end: date, train: list[Complaint], evaluation: list[Complaint]
+    silver_path: Path,
+    *,
+    train_end: date,
+    evaluation_start: date,
+    train: list[Complaint],
+    evaluation: list[Complaint],
 ) -> TemporalDiagnostics:
     frame = pl.read_parquet(silver_path).with_columns(pl.col("created_date").dt.date().alias("day"))
     train_bbls = set(
         frame.filter(pl.col("day") <= train_end).get_column("bbl").drop_nulls().cast(pl.String)
     )
     evaluation_bbls = set(
-        frame.filter(pl.col("day") > train_end).get_column("bbl").drop_nulls().cast(pl.String)
+        frame.filter(pl.col("day") >= evaluation_start)
+        .get_column("bbl")
+        .drop_nulls()
+        .cast(pl.String)
     )
     return TemporalDiagnostics(
         train_complaints=len(train),
@@ -347,26 +380,43 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _git_revision() -> str:
+def _git_provenance() -> dict[str, Any]:
     completed = subprocess.run(
         ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
     )
-    return completed.stdout.strip()
-
-
-def _implementation_hash() -> str:
-    root = Path(__file__).parents[3]
-    files = (
-        root / "src/nyc_housing_rl/evaluation/benchmark.py",
-        root / "src/nyc_housing_rl/evaluation/temporal.py",
-        root / "src/nyc_housing_rl/policies/learned.py",
-        root / "src/nyc_housing_rl/simulation/environment.py",
+    status = subprocess.run(
+        ["git", "status", "--porcelain"], check=True, capture_output=True, text=True
     )
+    return {
+        "revision": completed.stdout.strip(),
+        "is_dirty": bool(status.stdout.strip()),
+        "status_porcelain": status.stdout.splitlines(),
+    }
+
+
+def _source_tree_fingerprint() -> dict[str, Any]:
+    """Fingerprint every versioned Python implementation input by path and bytes."""
+
+    root = Path(__file__).parents[3]
+    files = sorted((root / "src" / "nyc_housing_rl").rglob("*.py"))
     digest = hashlib.sha256()
+    entries: list[dict[str, Any]] = []
     for path in files:
-        digest.update(path.relative_to(root).as_posix().encode())
-        digest.update(path.read_bytes())
-    return digest.hexdigest()
+        relative_path = path.relative_to(root).as_posix()
+        contents = path.read_bytes()
+        digest.update(relative_path.encode() + b"\0" + contents + b"\0")
+        entries.append(
+            {
+                "path": relative_path,
+                "bytes": len(contents),
+                "sha256": hashlib.sha256(contents).hexdigest(),
+            }
+        )
+    return {
+        "algorithm": "sha256(path-nul-bytes-nul)",
+        "sha256": digest.hexdigest(),
+        "files": entries,
+    }
 
 
 def _markdown_table(summary: list[dict[str, Any]]) -> str:
@@ -394,10 +444,15 @@ def _markdown_table(summary: list[dict[str, Any]]) -> str:
         grouped.setdefault(key, {})[str(item["metric"])] = item
     for key, metrics in sorted(grouped.items()):
         found = metrics["actionable_found"]
-        missed = metrics["actionable_missed"]
+        missed = metrics["actionable_unfound"]
         rows.append(
             f"| {key[0]} | {key[1]:.1f} | {key[2]} | "
-            f"{found['mean']:.2f} [{found['ci95_low']:.2f}, {found['ci95_high']:.2f}] | "
-            f"{missed['mean']:.2f} [{missed['ci95_low']:.2f}, {missed['ci95_high']:.2f}] |"
+            f"{_format_interval(found)} | {_format_interval(missed)} |"
         )
     return "\n".join(rows) + "\n"
+
+
+def _format_interval(metric: dict[str, Any]) -> str:
+    if metric["mean"] is None:
+        return "not comparable (no observed denominator)"
+    return f"{metric['mean']:.2f} [{metric['ci95_low']:.2f}, {metric['ci95_high']:.2f}]"

@@ -88,12 +88,13 @@ class InspectionTriageEnv(gym.Env[np.ndarray, int]):
 
         reward += self._serve_today()
         self._index += 1
-        self._total_reward += reward
         self._queue_depths.append(len(self._routine) + len(self._expedited))
         terminated = self._index >= len(self.complaints)
         if terminated:
             reward += self._drain()
-            self._total_reward += reward
+        # Account for this transition exactly once.  In particular, terminal drain
+        # rewards must not re-add the pre-drain portion of the final transition.
+        self._total_reward += reward
         return self._observation(), float(reward), terminated, False, self._info()
 
     def _advance_to(self, target_day: int) -> float:
@@ -171,7 +172,7 @@ class InspectionTriageEnv(gym.Env[np.ndarray, int]):
     def result(self) -> dict[str, Any]:
         if self._index < len(self.complaints):
             raise RuntimeError("Cannot create results before episode completion")
-        by_group: dict[str, dict[str, float]] = {}
+        by_group: dict[str, dict[str, float | int | None]] = {}
         groups = {item.equity_group for item in self.complaints}
         for group in groups:
             arrivals = [item for item in self.complaints if item.equity_group == group]
@@ -180,33 +181,87 @@ class InspectionTriageEnv(gym.Env[np.ndarray, int]):
                 "arrivals": len(arrivals),
                 "inspected": len(inspections),
                 "service_rate": len(inspections) / len(arrivals) if arrivals else 0.0,
-                "mean_delay_days": float(np.mean([item["delay_days"] for item in inspections]))
-                if inspections
-                else 0.0,
+                "mean_delay_days": (
+                    float(np.mean([item["delay_days"] for item in inspections]))
+                    if inspections
+                    else None
+                ),
             }
+        accounting = self._actionable_accounting()
         return {
             "config": asdict(self.config),
             "total_reward": self._total_reward,
             "complaints": len(self.complaints),
             "inspected": len(self._outcomes),
             "deferred": len(self._deferred),
-            "actionable_found": sum(
-                item["outcome"] == OutcomeLabel.ACTIONABLE.value for item in self._outcomes
-            ),
-            "actionable_missed": sum(
-                item.latent_outcome is OutcomeLabel.ACTIONABLE for item in self._deferred
-            ),
+            "latent_actionable_total": accounting["latent_actionable_total"],
+            "actionable_found": accounting["found"],
+            "actionable_deferred": accounting["deferred"],
+            "actionable_inaccessible": accounting["inaccessible"],
+            "actionable_queued_unserved": accounting["queued_unserved"],
+            # Retained for backwards compatibility.  "Missed" means every latent
+            # actionable that was not found, not merely an explicit deferral.
+            "actionable_missed": accounting["unfound"],
+            "actionable_unfound": accounting["unfound"],
             "actionable_mean_delay_days": _actionable_mean_delay(self._outcomes),
-            "mean_delay_days": float(np.mean([item["delay_days"] for item in self._outcomes]))
-            if self._outcomes
-            else 0.0,
+            "mean_delay_days": (
+                float(np.mean([item["delay_days"] for item in self._outcomes]))
+                if self._outcomes
+                else None
+            ),
             "max_queue_depth": max(self._queue_depths, default=0),
+            "actionable_accounting": accounting,
             "group_metrics": by_group,
             "decisions": self._decisions,
             "outcomes": self._outcomes,
         }
 
+    def _actionable_accounting(self) -> dict[str, int]:
+        """Partition every latent actionable exactly once after an episode."""
 
-def _actionable_mean_delay(outcomes: list[dict[str, Any]]) -> float:
+        latent_actionable = {
+            item.complaint_id
+            for item in self.complaints
+            if item.latent_outcome is OutcomeLabel.ACTIONABLE
+        }
+        deferred = {item.complaint_id for item in self._deferred} & latent_actionable
+        outcome_by_id = {str(item["complaint_id"]): str(item["outcome"]) for item in self._outcomes}
+        found = {
+            complaint_id
+            for complaint_id, outcome in outcome_by_id.items()
+            if complaint_id in latent_actionable and outcome == OutcomeLabel.ACTIONABLE.value
+        }
+        inaccessible = {
+            complaint_id
+            for complaint_id, outcome in outcome_by_id.items()
+            if complaint_id in latent_actionable and outcome == OutcomeLabel.INACCESSIBLE.value
+        }
+        queued_unserved = {
+            item.complaint_id for item in (*self._routine, *self._expedited)
+        } & latent_actionable
+        components = (found, deferred, inaccessible, queued_unserved)
+        has_overlap = any(
+            left & right
+            for index, left in enumerate(components)
+            for right in components[index + 1 :]
+        )
+        if has_overlap:
+            raise AssertionError("Actionable accounting categories must be disjoint")
+        if set().union(*components) != latent_actionable:
+            raise AssertionError("Actionable accounting must cover every latent actionable")
+        unfound = len(deferred) + len(inaccessible) + len(queued_unserved)
+        if len(found) + unfound != len(latent_actionable):
+            raise AssertionError("Actionable accounting reconciliation failed")
+        return {
+            "latent_actionable_total": len(latent_actionable),
+            "found": len(found),
+            "deferred": len(deferred),
+            "inaccessible": len(inaccessible),
+            "queued_unserved": len(queued_unserved),
+            "unfound": unfound,
+        }
+
+
+def _actionable_mean_delay(outcomes: list[dict[str, Any]]) -> float | None:
     delays = [item["delay_days"] for item in outcomes if item["outcome"] == "actionable"]
-    return float(np.mean(delays)) if delays else 0.0
+    return float(np.mean(delays)) if delays else None

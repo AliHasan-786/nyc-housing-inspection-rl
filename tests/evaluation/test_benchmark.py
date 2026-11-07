@@ -33,7 +33,7 @@ def test_benchmark_writes_checksums_rows_and_temporal_diagnostics(tmp_path: Path
     config = {
         "name": "fixture",
         "data_snapshot": "2026-01-04",
-        "temporal_split": {"train_end": "2026-01-02"},
+        "temporal_split": {"train_end": "2026-01-02", "evaluation_start": "2026-01-03"},
         "seeds": [3, 5],
         "training": {"episodes": 4, "learning_rate": 0.15, "gamma": 0.95, "epsilon": 0.15},
         "simulation": {"daily_capacity": [1], "access_probability": [1.0], "max_drain_days": 3},

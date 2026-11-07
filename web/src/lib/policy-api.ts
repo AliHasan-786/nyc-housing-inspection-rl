@@ -19,9 +19,14 @@ export type PolicyResult = {
   inspected: number;
   actionableFound: number;
   actionableMissed: number;
-  meanDelayDays: number;
+  actionableDeferred: number;
+  actionableInaccessible: number;
+  actionableQueuedUnserved: number;
+  actionableUnfound: number;
+  latentActionableTotal: number;
+  meanDelayDays: number | null;
   maxQueueDepth: number;
-  groupMetrics: Record<string, { arrivals: number; inspected: number; serviceRate: number; meanDelayDays: number }>;
+  groupMetrics: Record<string, { arrivals: number; inspected: number; serviceRate: number; meanDelayDays: number | null }>;
   limitations: string[];
 };
 

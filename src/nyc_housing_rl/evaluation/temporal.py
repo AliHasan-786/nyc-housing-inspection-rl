@@ -12,9 +12,12 @@ from nyc_housing_rl.simulation.types import Complaint
 
 
 def temporal_split_from_silver(
-    path: Path, *, train_end: date
+    path: Path, *, train_end: date, evaluation_start: date | None = None
 ) -> tuple[list[Complaint], list[Complaint]]:
     """Split after point-in-time feature construction; no random-row headline split."""
+
+    if evaluation_start is not None and evaluation_start <= train_end:
+        raise ValueError("evaluation_start must be later than train_end")
 
     rows = (
         pl.read_parquet(path).sort("created_date", "unique_key").select("created_date").to_dicts()
@@ -25,7 +28,15 @@ def temporal_split_from_silver(
     for row, complaint in zip(rows, complaints, strict=True):
         created = row["created_date"]
         timestamp = created if isinstance(created, datetime) else datetime.fromisoformat(created)
-        (train if timestamp.date() <= train_end else evaluation).append(complaint)
+        complaint_day = timestamp.date()
+        if complaint_day <= train_end:
+            train.append(complaint)
+        elif evaluation_start is None or complaint_day >= evaluation_start:
+            evaluation.append(complaint)
+        else:
+            raise ValueError(
+                "Temporal split leaves complaint dates between train and evaluation windows"
+            )
     if not train or not evaluation:
         raise ValueError("Temporal cutoff must produce non-empty train and evaluation scenarios")
     return train, evaluation

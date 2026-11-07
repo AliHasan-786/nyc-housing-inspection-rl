@@ -31,7 +31,7 @@ class GroupMetric(BaseModel):
     arrivals: int
     inspected: int
     service_rate: float = Field(alias="serviceRate")
-    mean_delay_days: float = Field(alias="meanDelayDays")
+    mean_delay_days: float | None = Field(alias="meanDelayDays")
 
 
 class PolicyRunResponse(BaseModel):
@@ -46,7 +46,12 @@ class PolicyRunResponse(BaseModel):
     inspected: int
     actionable_found: int = Field(alias="actionableFound")
     actionable_missed: int = Field(alias="actionableMissed")
-    mean_delay_days: float = Field(alias="meanDelayDays")
+    actionable_deferred: int = Field(alias="actionableDeferred")
+    actionable_inaccessible: int = Field(alias="actionableInaccessible")
+    actionable_queued_unserved: int = Field(alias="actionableQueuedUnserved")
+    actionable_unfound: int = Field(alias="actionableUnfound")
+    latent_actionable_total: int = Field(alias="latentActionableTotal")
+    mean_delay_days: float | None = Field(alias="meanDelayDays")
     max_queue_depth: int = Field(alias="maxQueueDepth")
     group_metrics: dict[str, GroupMetric] = Field(alias="groupMetrics")
     limitations: list[str]

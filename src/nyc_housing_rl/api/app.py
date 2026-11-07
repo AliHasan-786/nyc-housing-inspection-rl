@@ -49,7 +49,12 @@ def create_app(
             inspected=int(result["inspected"]),
             actionableFound=int(result["actionable_found"]),
             actionableMissed=int(result["actionable_missed"]),
-            meanDelayDays=float(result["mean_delay_days"]),
+            actionableDeferred=int(result["actionable_deferred"]),
+            actionableInaccessible=int(result["actionable_inaccessible"]),
+            actionableQueuedUnserved=int(result["actionable_queued_unserved"]),
+            actionableUnfound=int(result["actionable_unfound"]),
+            latentActionableTotal=int(result["latent_actionable_total"]),
+            meanDelayDays=result["mean_delay_days"],
             maxQueueDepth=int(result["max_queue_depth"]),
             groupMetrics={
                 key: GroupMetric(**value) for key, value in result["group_metrics"].items()
