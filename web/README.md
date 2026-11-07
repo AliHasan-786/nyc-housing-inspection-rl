@@ -17,13 +17,14 @@ Visit `http://127.0.0.1:3000`.
 
 ## Current behavior
 
-The initial version uses a deterministic, browser-local scenario preview to make interaction
-immediate. It is visibly labeled as simulated. It does not call an API, process personal data,
-or make a recommendation.
+The Policy Lab only renders outcome metrics after a versioned API scenario run. If the API is not
+configured or unavailable, it withholds metrics rather than approximating them in the browser. It
+does not process personal data, make a recommendation, or authorize enforcement.
 
 ## Integration boundary
 
-`src/lib/policy-api.ts` specifies the request/result shape for the future FastAPI service. A
-future client should read `NEXT_PUBLIC_POLICY_API_BASE_URL`, submit a declared scenario, and
-render only returned artifact-backed results. The product must preserve data-snapshot,
-assumption, policy, and counterfactual labels in that transition.
+`src/lib/policy-api.ts` specifies the request/result shape for the FastAPI service. Set
+`NEXT_PUBLIC_POLICY_API_BASE_URL`, submit a declared scenario, and render only returned
+artifact-backed results. The product preserves data-snapshot, assumption, policy, and
+counterfactual labels. A queue trajectory remains withheld until the API exports one as part of an
+artifact.

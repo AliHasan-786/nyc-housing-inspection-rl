@@ -15,6 +15,7 @@ export type PolicyResult = {
   snapshotDate: string;
   isCounterfactual: true;
   totalReward: number;
+  complaints: number;
   inspected: number;
   actionableFound: number;
   actionableMissed: number;
@@ -27,7 +28,7 @@ export type PolicyResult = {
 export async function runPolicyScenario(request: ScenarioRequest): Promise<PolicyResult> {
   const baseUrl = process.env.NEXT_PUBLIC_POLICY_API_BASE_URL;
   if (!baseUrl) {
-    throw new Error("Policy API is not configured. Use the local simulated preview instead.");
+    throw new Error("Policy API is not configured. Metrics are withheld until a versioned run exists.");
   }
   const response = await fetch(`${baseUrl}/v1/policy-runs`, {
     method: "POST",

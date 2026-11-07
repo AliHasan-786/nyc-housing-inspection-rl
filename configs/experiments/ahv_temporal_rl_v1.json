@@ -8,6 +8,12 @@
     "rule": "strictly earlier complaint creation timestamps train policies; later timestamps evaluate them"
   },
   "seeds": [11, 23, 37, 53, 71],
+  "training": {
+    "episodes": 200,
+    "learning_rate": 0.15,
+    "gamma": 0.95,
+    "epsilon": 0.15
+  },
   "simulation": {
     "daily_capacity": [1, 2],
     "access_probability": [1.0, 0.8],

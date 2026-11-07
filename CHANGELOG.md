@@ -2,6 +2,17 @@
 
 All notable project changes are documented here by sprint.
 
+## Sprint 3 temporal benchmark - 2026-11-07
+
+- Added a frozen, seeded temporal evaluation runner with row-level decisions/outcomes, serialized
+  learned-policy manifests, bootstrap intervals, input/output hashes, and repeated-building checks.
+- Evaluated contextual-bandit and tabular Q-learning policies against transparent operational
+  baselines under declared capacity and access scenarios.
+- Published the negative result with its simulator, small-cohort, and operational-geography limits:
+  neither learned policy beat the transparent baselines.
+- Removed hardcoded Policy Lab result values and the illustrative queue curve; UI metrics now come
+  only from a versioned API response.
+
 ## Verification correction - 2026-07-16
 
 - Withdrew hand-authored local Policy Lab metric values when no versioned API scenario is available.

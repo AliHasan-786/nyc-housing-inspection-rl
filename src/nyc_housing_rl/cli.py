@@ -23,6 +23,7 @@ from nyc_housing_rl.data.snapshot import (
     write_snapshot,
 )
 from nyc_housing_rl.data.sources import AHV_311, AHV_PERMITS, DATASETS
+from nyc_housing_rl.evaluation.benchmark import run_temporal_benchmark
 
 DEFAULT_DATA_ROOT = Path("data")
 
@@ -68,6 +69,13 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
     run.add_argument("--artifact-root", type=Path, default=Path("artifacts"))
 
+    benchmark = subparsers.add_parser(
+        "run-temporal-benchmark", help="run the configured seeded temporal policy benchmark"
+    )
+    benchmark.add_argument("--config", type=Path, required=True)
+    benchmark.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
+    benchmark.add_argument("--artifact-root", type=Path, default=Path("artifacts"))
+
     return parser
 
 
@@ -81,6 +89,8 @@ def main(argv: list[str] | None = None) -> int:
         return _build(args)
     if args.command == "run-policy":
         return _run_policy(args)
+    if args.command == "run-temporal-benchmark":
+        return _run_temporal_benchmark(args)
     raise AssertionError("unreachable")
 
 
@@ -178,6 +188,16 @@ def _run_policy(args: argparse.Namespace) -> int:
             }
         )
     )
+    return 0
+
+
+def _run_temporal_benchmark(args: argparse.Namespace) -> int:
+    output = run_temporal_benchmark(
+        config_path=args.config,
+        data_root=args.data_root,
+        artifact_root=args.artifact_root,
+    )
+    print(json.dumps({"artifact_directory": str(output)}))
     return 0
 
 

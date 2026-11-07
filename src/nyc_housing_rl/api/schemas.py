@@ -42,6 +42,7 @@ class PolicyRunResponse(BaseModel):
     snapshot_date: date = Field(alias="snapshotDate")
     is_counterfactual: Literal[True] = Field(alias="isCounterfactual")
     total_reward: float = Field(alias="totalReward")
+    complaints: int
     inspected: int
     actionable_found: int = Field(alias="actionableFound")
     actionable_missed: int = Field(alias="actionableMissed")

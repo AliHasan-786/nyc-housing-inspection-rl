@@ -2,7 +2,7 @@
 
 An interactive reinforcement-learning research project for allocating New York City building inspections under limited capacity, uncertain outcomes, and explicit equity constraints.
 
-> **Status:** Sprint 3 — reproducible Policy Lab API. The original coursework is preserved separately. No model in this repository is ready for operational use.
+> **Status:** Sprint 3 — a seeded temporal simulator benchmark is complete. Its learned policies did not beat transparent baselines; no model in this repository is ready for operational use.
 
 ## What this project is becoming
 
@@ -127,6 +127,8 @@ of this universe, not the ceiling of the project.
 - [Roadmap and sprint acceptance criteria](docs/project/roadmap.md)
 - [Coursework evidence audit](docs/audit/coursework-audit.md)
 - [Research methodology](docs/research/methodology.md)
+- [Temporal benchmark v1: negative result and limits](docs/research/ahv-temporal-benchmark-v1.md)
+- [November 2026 relevance and contribution brief](docs/research/relevance-2026-11-07.md)
 - [Published research foundation](docs/research/published-foundation.md)
 - [Published paper and citation](docs/papers/README.md)
 - [Restricted research-materials policy](docs/research/restricted-materials.md)

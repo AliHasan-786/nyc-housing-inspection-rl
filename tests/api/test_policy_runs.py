@@ -44,6 +44,7 @@ def test_policy_run_returns_counterfactual_metrics_and_artifacts(tmp_path: Path)
     payload = response.json()
     assert payload["isCounterfactual"] is True
     assert payload["policy"] == "safety_floor"
+    assert payload["complaints"] == 2
     assert len(payload["limitations"]) == 4
     artifact = artifact_root / "policy-runs" / "2026-01-02" / payload["artifactId"]
     assert (artifact / "manifest.json").exists()

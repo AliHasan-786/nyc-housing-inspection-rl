@@ -45,6 +45,7 @@ def create_app(
             snapshotDate=request.snapshot_date,
             isCounterfactual=True,
             totalReward=float(result["total_reward"]),
+            complaints=int(result["complaints"]),
             inspected=int(result["inspected"]),
             actionableFound=int(result["actionable_found"]),
             actionableMissed=int(result["actionable_missed"]),
