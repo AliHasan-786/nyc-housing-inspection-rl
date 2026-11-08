@@ -1,0 +1,4377 @@
+{
+  "counterfactual": true,
+  "event_day_semantics": {
+    "admitted": "Non-deferred decisions recorded on that event day.",
+    "day": "Simulator-relative event day, not a calendar date.",
+    "ending_backlog": "Prior ending backlog + admitted - inspection attempts.",
+    "inspection_attempts": "Recorded simulated inspection outcomes on that event day.",
+    "intra_day_max_backlog": null,
+    "intra_day_max_note": "Not exported: day-level records have no within-day event order, so an exact intra-day maximum would be invented."
+  },
+  "provenance": {
+    "artifact_schema_version": "temporal-benchmark/v1.1",
+    "benchmark": "ahv_temporal_rl_v1_1_correction",
+    "config_sha256": "1064c756c46c041db74cf8f36f5bbc9fa704c9119819c54d3444ab453bf8f898",
+    "generator": {
+      "path": "scripts/export_benchmark_explorer.py",
+      "sha256": "0775a0d160dab41898da7be905eb7f1d0726a4d030d5394dea3fc5e2b2b1c349"
+    },
+    "output_sha256": {
+      "decisions.parquet": "0d4ad6e9b6d4089e46c0026a84e04a91cfd39fd7e2776d7184d2be95a98ac65f",
+      "operational-geography.json": "d8dc04ba91a5ba53da3b6441b74f18285f5956e883d285f0a990fb1621d71c13",
+      "outcomes.parquet": "a7c67ca15661e5ecde04b377246eeb27eb443962332d8961176756d30d5e0e35",
+      "runs.parquet": "ba41b65b60066b9739f6aa685d5305f44a83e6b3a856e74fa9a074f6b9834c02",
+      "summary.json": "95761293ab4f346fb365bc1cf9a71abd0aef89f8fd7b36bd3d921d3f8e1104fb",
+      "summary.md": "cf9d9e8d2f56104baf0812ec99f210afbac86b25323151e5f308a7dc45fc830b",
+      "trained-policies.json": "1d6a22f04e4fabbc57c8a8e380eec0e0a99cffe1c7ccab4f08e6a43166e3813c"
+    },
+    "silver_sha256": "27cc11341b39009cb1906c1be5c6f0032b8586a8b15a3483975bf39362b93618",
+    "source_tree_sha256": "dcc77d46c8f6c02a51cf51ad2d23e0c264e0759d4d9765589e573ccf8677f8ec"
+  },
+  "replays": [
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/05104f9465ce8fb3.json",
+      "run_id": "05104f9465ce8fb3",
+      "sha256": "33ea9f49e8f4ba5488bf1054f00671a1f7924e1478936fe61b2adb1eec8f6423"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/13731617ed4b7218.json",
+      "run_id": "13731617ed4b7218",
+      "sha256": "0736ac31312550cba609bea846f0ed703256a074b3e0e13e083eb6d79c72d40d"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/159d23274951ee34.json",
+      "run_id": "159d23274951ee34",
+      "sha256": "7b8d25caa67555b53dbf751c26367fb170d495595f10d86bad3c18973faf8d35"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/1637219bdbf6ef67.json",
+      "run_id": "1637219bdbf6ef67",
+      "sha256": "55770647310a45aaff7c6da4838560c8006bb45e1976862faa1c49a5aea4e21d"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/197a6bd19205319c.json",
+      "run_id": "197a6bd19205319c",
+      "sha256": "84d6f45ea813f2db58a76e514a9a3ca688440b18c9cb660cc2f6d29976dbcaa4"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/1b058765da78978c.json",
+      "run_id": "1b058765da78978c",
+      "sha256": "2e21faf24e86607d687bcab8a22ce6e72af2971f5d67939d94827b9bbbbd5c07"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/1dca11f5ac08e1fa.json",
+      "run_id": "1dca11f5ac08e1fa",
+      "sha256": "d50340b0cfff8382e9434923d4633b6650eca529db592197e2b597b57b7e755e"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/1dfbab1998e40d93.json",
+      "run_id": "1dfbab1998e40d93",
+      "sha256": "13105abf5ce0ee2f485d451d184a0cff5f3e306335543ca0ac474ce3a7471225"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/20f0887eb6e743d2.json",
+      "run_id": "20f0887eb6e743d2",
+      "sha256": "5d6d7a0ae2a9871d78e47e2180cb84825819c745aa3649c3df1b96f9fa6c90cb"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/2267a2a3c53f67bf.json",
+      "run_id": "2267a2a3c53f67bf",
+      "sha256": "b452e0baa9e32c6f82ae6838d28f19f9cb2c790a5d5f18af35701b26e505a327"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/238232329fb7f775.json",
+      "run_id": "238232329fb7f775",
+      "sha256": "3075cfc0a754d03a4de932035c5bd19fd7f44f7f301a21278d465c8d0ef0fe02"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/239cde14091b94cd.json",
+      "run_id": "239cde14091b94cd",
+      "sha256": "19a495a65d2e344560cb417cb1cdef0e65aabdf6afd344637ee1bd79057651aa"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/23aab091497b9d8f.json",
+      "run_id": "23aab091497b9d8f",
+      "sha256": "2d18b68bd8baecfc74b061907967ebed6712e05a083cf357584cd0ca22bf516f"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/24354f464cdf6845.json",
+      "run_id": "24354f464cdf6845",
+      "sha256": "ed8fe23e2ef7ba9972a2f6a7ce51c8a6d939629930587877c9d097ffef809abf"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/24a785aa00456773.json",
+      "run_id": "24a785aa00456773",
+      "sha256": "1b59fb97fdfda425f93376d92e81d55decb53e6a67ebff26d3f944968d539fe2"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/2608c6c0434bf285.json",
+      "run_id": "2608c6c0434bf285",
+      "sha256": "cef4b34b1383da48db626fc522f0ed7476d5a236b2c9c2bb61f49792db66c0f4"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/26843bba24af3ffc.json",
+      "run_id": "26843bba24af3ffc",
+      "sha256": "05f5a1a939c3b7089fd73569e2824db1632ce58c2d9c459115e2527711755984"
+    },
+    {
+      "bytes": 23593,
+      "event_days": 76,
+      "path": "/data/benchmark-explorer/replays/298626b5f0cecc80.json",
+      "run_id": "298626b5f0cecc80",
+      "sha256": "a20924796516d3a4a999e32ac62d480f174ca4c50ed7b5043a00c7ae1f5f14b1"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/29d84cae6e1be4da.json",
+      "run_id": "29d84cae6e1be4da",
+      "sha256": "998827ce0853dbed0f2760f2b9d2e1a49cfa70df401b1e00d0b406a62bada336"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/2c4c860b62100339.json",
+      "run_id": "2c4c860b62100339",
+      "sha256": "8f14a60c6f51631e657d405a0d80c3398de9c242168a5a15addf5095a2314cbd"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/2c4f112a681af885.json",
+      "run_id": "2c4f112a681af885",
+      "sha256": "5d1d77cde1ab4ad0d0cd84b4c46b1ecd7a22e9338f26186b8db76f436573ba26"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/2f662049078422f5.json",
+      "run_id": "2f662049078422f5",
+      "sha256": "3ba5caf5673799c5bcf755ba422acae9085432ec62bf06128e22ea4d277a34ef"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/331ce640007eef16.json",
+      "run_id": "331ce640007eef16",
+      "sha256": "c23063e6348351eddf738a7b211183d881510a8874499918bfe1515dffa195fe"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/34af8202f2da3acf.json",
+      "run_id": "34af8202f2da3acf",
+      "sha256": "a60ec712f601d1be4ca9445ed943ccd3172819bded2b1b78f9f88b11828a1eea"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/37d239cb964702ff.json",
+      "run_id": "37d239cb964702ff",
+      "sha256": "c084b2714a5d715132cc63e471f64c6ce576ebf45af56925bdb9e73cb93122b4"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/39fee5b5deca265d.json",
+      "run_id": "39fee5b5deca265d",
+      "sha256": "a3c1b741e5fbf2e02998dedd1c943097e564baa515deb56fa12f3cb04c9932d0"
+    },
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/3b899bc7c6fd2115.json",
+      "run_id": "3b899bc7c6fd2115",
+      "sha256": "29939fedeba390f4057f6e223c98d178a033438bdb36f69d05d594d570dd3b10"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/3ba00459ca5d9282.json",
+      "run_id": "3ba00459ca5d9282",
+      "sha256": "ff85f92534464d11879598c00348e825fdff1cba50bd4382feb575aecda7b6fb"
+    },
+    {
+      "bytes": 22884,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/3bba142e172c7ecc.json",
+      "run_id": "3bba142e172c7ecc",
+      "sha256": "65b2b3772ac7c6abd0fac6184e8b1729bdf489a11c12fc45bce261ce2deded23"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/3c0bbbbd0a2d2803.json",
+      "run_id": "3c0bbbbd0a2d2803",
+      "sha256": "bdcfaf23ef7a8368b2cf18cc310ee950d74248a701d5a852d913d8e8e413b6c1"
+    },
+    {
+      "bytes": 22999,
+      "event_days": 74,
+      "path": "/data/benchmark-explorer/replays/3fb6cfaaaacc04b0.json",
+      "run_id": "3fb6cfaaaacc04b0",
+      "sha256": "ad16d1f7752269cd612efc0eed93b921a4bcd9bc7797b3b22d64af1799831bb4"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/408e430481400070.json",
+      "run_id": "408e430481400070",
+      "sha256": "350898b23d9836726d4f4ba6fee66309ae259d5bf6144ff6d7f881993629b501"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/40a3447742576647.json",
+      "run_id": "40a3447742576647",
+      "sha256": "d8dc189e2a0542e479bd937c9b9570e0d51af1bad05ac71f03b12f3a2d8a6d77"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/419e200419e6877f.json",
+      "run_id": "419e200419e6877f",
+      "sha256": "7a2c95055863884f1f34769c99212ee9fd8051bdbaf4f800655ab17cc05daf95"
+    },
+    {
+      "bytes": 23192,
+      "event_days": 72,
+      "path": "/data/benchmark-explorer/replays/45eede20d9dda729.json",
+      "run_id": "45eede20d9dda729",
+      "sha256": "04e2a1f5818d12f7459638dcd435f43b7389d876d2d9c8568e2eb2762d3c9a3d"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/49fcc9a35d47085b.json",
+      "run_id": "49fcc9a35d47085b",
+      "sha256": "df44a89c34e3e8636c0590c5db8b97c70d78908853c24b3db361b74f9b68428f"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/4b9377e838392a77.json",
+      "run_id": "4b9377e838392a77",
+      "sha256": "225293d5706ea8395c1e8f4ded8ba201c6e333aa13cdf50a2543d84053b841b3"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/4fedf471b01067c7.json",
+      "run_id": "4fedf471b01067c7",
+      "sha256": "1ec15e6b52126e1d60759a3ba90f53bb0723be937d6e94f8424db4ba22fc7ec8"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/518bf7ebfea0ab81.json",
+      "run_id": "518bf7ebfea0ab81",
+      "sha256": "1848589403a785cf20ca9afd96df9c5a722dd88d9dcb83d17bf6cc6dbf259321"
+    },
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/53b89ef8de29a338.json",
+      "run_id": "53b89ef8de29a338",
+      "sha256": "089a669f5c2cd86fa252a5a666d8553b21a9169ac4130be676233b4ae3245d99"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/56b46599e253d0d9.json",
+      "run_id": "56b46599e253d0d9",
+      "sha256": "fa23791cb56c0e54068c3702a7fd21036c0639a5186c2435d8f1cdfed5dd125a"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/56cd1e49519e87cd.json",
+      "run_id": "56cd1e49519e87cd",
+      "sha256": "7d99f13b66d91defaad6c5c8f9002d336213082a2f7ecc9e86a3868fd5ae233e"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/5a247284b8e53d9a.json",
+      "run_id": "5a247284b8e53d9a",
+      "sha256": "88a38444b0e356cfbbb0f18d407ce98c7a4e301327ec68b2a9524d8320a95ae2"
+    },
+    {
+      "bytes": 22884,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/5a602fda62e3b680.json",
+      "run_id": "5a602fda62e3b680",
+      "sha256": "0d80ff41194fe823c24e117d18b1b3cab9e92abe97ffd4533725832eee6ebf53"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/5b2dfc4d9c858c06.json",
+      "run_id": "5b2dfc4d9c858c06",
+      "sha256": "5d6db9f234c2ff35a7306a75f311cc50582c10e5554875ed09049118c5a22144"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/5cfce8795647710b.json",
+      "run_id": "5cfce8795647710b",
+      "sha256": "326897e2796ffc5faa0f73bd8467e6cbb4444f717e9ec91ce9bd1b2152d79f33"
+    },
+    {
+      "bytes": 24186,
+      "event_days": 78,
+      "path": "/data/benchmark-explorer/replays/5d57b5cd13e6e2aa.json",
+      "run_id": "5d57b5cd13e6e2aa",
+      "sha256": "45d30a84a1327a2669a95c757621a189ac76ac6c6e6b85ff621470a2859f4fba"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/5d67bf846bed6d35.json",
+      "run_id": "5d67bf846bed6d35",
+      "sha256": "25e1fc8bcb28fd23634ea2df1e584f1f802d24d3236b61f9cce550957648b29d"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/5d705fb381c104a9.json",
+      "run_id": "5d705fb381c104a9",
+      "sha256": "dc41b9c3de5852c6473d03055d7cd94d039050a793870e7f3c9ddf1960453941"
+    },
+    {
+      "bytes": 22092,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/60ebe72315ee1e49.json",
+      "run_id": "60ebe72315ee1e49",
+      "sha256": "6d8827c011a07bbd9bd3eae3678e1740e82085fb39e9ec9d8fa077cba2f7e793"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/611900783816e9dd.json",
+      "run_id": "611900783816e9dd",
+      "sha256": "24dbab4cd6727b82cf3b45fa590283a4d16108410a68e7fcc3c68aba1e59b71b"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6337c86462d2fd79.json",
+      "run_id": "6337c86462d2fd79",
+      "sha256": "8e04a3ecdc845da56b72212acbc59409b6dccf3165302b48c9304f52bc9653f5"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6426a021f9d1afb4.json",
+      "run_id": "6426a021f9d1afb4",
+      "sha256": "6d3464d68a12f18fda1251fd14aa0d7109c77b0d64d208d0659d1ba4afd6e9af"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/6745e90a32348952.json",
+      "run_id": "6745e90a32348952",
+      "sha256": "333cc165a6bc4228969ae019ea69215f820f01b80578d204b950f9834d3a86b6"
+    },
+    {
+      "bytes": 22092,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6863df3606350a27.json",
+      "run_id": "6863df3606350a27",
+      "sha256": "f05b557100810ea5cdb7cdef59352e70094861d5bb30a3ab6e864e27a48871be"
+    },
+    {
+      "bytes": 22999,
+      "event_days": 74,
+      "path": "/data/benchmark-explorer/replays/689996ad67d6f700.json",
+      "run_id": "689996ad67d6f700",
+      "sha256": "fc370f4c8f55c4b7effdf7f2e6dcd12dca1dbaa8b675f355bff017fd6bcffc82"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/68be61c7f73b72fa.json",
+      "run_id": "68be61c7f73b72fa",
+      "sha256": "689b65143cc9051483f76df9d20c3530960ecae12e41fd345322afb1e81ee66e"
+    },
+    {
+      "bytes": 23296,
+      "event_days": 75,
+      "path": "/data/benchmark-explorer/replays/6aedfe843aa5016c.json",
+      "run_id": "6aedfe843aa5016c",
+      "sha256": "f1f555413978853eddd0725c702867bf5783982d2958b1a09d3036cfa051cf7a"
+    },
+    {
+      "bytes": 22956,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6d894997ecf2d8bf.json",
+      "run_id": "6d894997ecf2d8bf",
+      "sha256": "f3bb9b3689c1a480776099b437f1384d0e31521e0e980e991c974502b1656457"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6ecef2a0d596ed22.json",
+      "run_id": "6ecef2a0d596ed22",
+      "sha256": "44a8f2f1b84e7e7ad7583fcbea5e42fbc465f2ad95d785c4406501e73b4260e1"
+    },
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6f2ab0d51c7c0408.json",
+      "run_id": "6f2ab0d51c7c0408",
+      "sha256": "b02b97699b50a3e742cb206dc2276ae712f1d246396c801c238def87638a8b62"
+    },
+    {
+      "bytes": 23296,
+      "event_days": 75,
+      "path": "/data/benchmark-explorer/replays/6fccf4e5617f12d1.json",
+      "run_id": "6fccf4e5617f12d1",
+      "sha256": "3f2882d2729838111020428f110f8e9a79eb4ed979546e4491df732cc5a2e827"
+    },
+    {
+      "bytes": 22884,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/6ff01bd76655a8bd.json",
+      "run_id": "6ff01bd76655a8bd",
+      "sha256": "5b2cdd9b73c6f5abbcda7eab891eb3d26c48f5a7db794c9fcb270d73d54ebc30"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/73d0e301c737eb2f.json",
+      "run_id": "73d0e301c737eb2f",
+      "sha256": "4ea52e5a42e6c9365da9da946d23a35e2dd42d2bd0f83053f1ae525b6735e971"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/7845ffd5ab059278.json",
+      "run_id": "7845ffd5ab059278",
+      "sha256": "bccdb5aa533f9dbb46b201a1a7f8f71af2bc1e454c472195b2d42deee9731821"
+    },
+    {
+      "bytes": 23192,
+      "event_days": 72,
+      "path": "/data/benchmark-explorer/replays/7ca2ca16d28267d6.json",
+      "run_id": "7ca2ca16d28267d6",
+      "sha256": "26be24713efb71b4a2f603002f82cb09ccce9c2f5b85fa3570144e284595a627"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/7fe66c0993f1dd49.json",
+      "run_id": "7fe66c0993f1dd49",
+      "sha256": "cb04f14eb47c7a36af004aa9d179d866a38ce391621d16cf4e254d815e4a7357"
+    },
+    {
+      "bytes": 22092,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/81c169bce958b0c6.json",
+      "run_id": "81c169bce958b0c6",
+      "sha256": "04e6f0bfd2680fdcb2f4b25f9dd16b081e58ce4b21d679118f894011853f0f9e"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/833f722b4c144a66.json",
+      "run_id": "833f722b4c144a66",
+      "sha256": "51384b2a3effcba804d4f4b5be4f3c109cd878c2fc05a98256c155d3c649be14"
+    },
+    {
+      "bytes": 22956,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/85101b91e961c55b.json",
+      "run_id": "85101b91e961c55b",
+      "sha256": "30c741d26364dea8e65475acd9a065d320a97cd399d5a20247dd56dbd3670bb4"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/87553620651b65d3.json",
+      "run_id": "87553620651b65d3",
+      "sha256": "d942f78b4f30c9cf439f54fb973235c1304edaea59b7413fbe1b08e617998c99"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/879af474b1c106bf.json",
+      "run_id": "879af474b1c106bf",
+      "sha256": "ed75a8730b127c43e2645e253f5e1ffef9b0969d95eb6202853b658e73f22482"
+    },
+    {
+      "bytes": 22092,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/881dd5050f60cf6d.json",
+      "run_id": "881dd5050f60cf6d",
+      "sha256": "052e876e68e4da384b28a7ce596a5aa963a8db03b3bd3181c3be1c0bfba59e00"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/88f36375c0d60518.json",
+      "run_id": "88f36375c0d60518",
+      "sha256": "c490728edb47b7f7e49444cb00acde01493c2fec6e6dc6ab39fc7554b6ac7d9e"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/8c96458214d82022.json",
+      "run_id": "8c96458214d82022",
+      "sha256": "da92fc75c27b987959bfdabe822e476edb25af7687fbd458d4bc041d6eda2b25"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/8cf2b1111533b5de.json",
+      "run_id": "8cf2b1111533b5de",
+      "sha256": "691e855148291d1cedf15e5207771784ed70e66931721db692e43a7c43e9f4ff"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/8f02df254988cb31.json",
+      "run_id": "8f02df254988cb31",
+      "sha256": "8db6682bf06fc890edbe60e7dd6f1449a32d8efd0e1d2992306c84f5a8a8afd9"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/90e080d905abe85e.json",
+      "run_id": "90e080d905abe85e",
+      "sha256": "ec759395ea95ee7f9143c292cea2758a1afc73d55f7b51c44228f914d4ae9274"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/9213bf5f5676ebe8.json",
+      "run_id": "9213bf5f5676ebe8",
+      "sha256": "c48c71c96f054157a602ab79e65ee539e2bcc58cf5e2716c9a4c62cce1c05a51"
+    },
+    {
+      "bytes": 22956,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/959901f3ba791094.json",
+      "run_id": "959901f3ba791094",
+      "sha256": "47cc37779446f4bbd6d4f460c37fbf1fe152159a6d8e4f72f535d30d432fe431"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/97b5acbc3e57b354.json",
+      "run_id": "97b5acbc3e57b354",
+      "sha256": "0cd35d79b83964aa1b1752c3b2385ba4f992640a36aafcee093279ea825e38ce"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/99cb4c3c25d62bf8.json",
+      "run_id": "99cb4c3c25d62bf8",
+      "sha256": "9bf49e9eed61a8e1b62e0d6ca08c11969d5adbf7bdb628472eac154e9bb0ba3e"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/9fc1b86d5461015b.json",
+      "run_id": "9fc1b86d5461015b",
+      "sha256": "b25ffe17b9359a1916e81eb8c030a59c168f891b41eed39a5fe9b6848919aada"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/aadc4b699413a8c0.json",
+      "run_id": "aadc4b699413a8c0",
+      "sha256": "008f179d0e1bed75984652befb0634a25d8e65d12cdce0bbde05c095f8b2a638"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/abab9179bf4d90bd.json",
+      "run_id": "abab9179bf4d90bd",
+      "sha256": "072e029b5d9fb8aae9310fb23f2ad170c5b611840d818d21274431df7385414e"
+    },
+    {
+      "bytes": 24186,
+      "event_days": 78,
+      "path": "/data/benchmark-explorer/replays/b694fb9a22f32d0c.json",
+      "run_id": "b694fb9a22f32d0c",
+      "sha256": "9dc87830a10db858d11a4eb5f6fcec32729b2e2f9f230e0adf34ac66b43e3aa7"
+    },
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/baf40e5a16a95a0d.json",
+      "run_id": "baf40e5a16a95a0d",
+      "sha256": "df1f5073ec0a109e3d526e1a48a676a981e9acf9fd500eb521a31710b8b94f24"
+    },
+    {
+      "bytes": 22956,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/bcdb6e0d00e5cf93.json",
+      "run_id": "bcdb6e0d00e5cf93",
+      "sha256": "488fe942e6c6f68ffa8e6e29c30bc2d4ee37874032ed24a700ddb46144e9e0bc"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/c2fdd3406e3d6da3.json",
+      "run_id": "c2fdd3406e3d6da3",
+      "sha256": "b73836c5653e52e01b4be751c4c3996025e006c8d2f8c9ade5f758bc6b5bd898"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/c3b9722c3cb47674.json",
+      "run_id": "c3b9722c3cb47674",
+      "sha256": "c2b039c6c3ee363ca8902b0d78ea4a2c39964168dbe252cda5add506debd5d53"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/c4025d079701b86b.json",
+      "run_id": "c4025d079701b86b",
+      "sha256": "67b6ffdf2433d1487f700e12123b62f510e7b2edc36ae0d718251150515ec7e9"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/c45ddb58f5549cb1.json",
+      "run_id": "c45ddb58f5549cb1",
+      "sha256": "2381c80cfe7b9f71d9cf9e13d1f4192b27fbaaa4c1dc8a5c592bb0cfba4c541b"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/c4d3a009687c28d2.json",
+      "run_id": "c4d3a009687c28d2",
+      "sha256": "32d87d8dc88e8a9ecef27a6ebfbcd97d38d1385edd0dd8484ff487c382cdd4f6"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/c76f294d3782c367.json",
+      "run_id": "c76f294d3782c367",
+      "sha256": "e5c6135ba03803e76f9b0b595811520d3c8caf53f3d2fae6d8501f2e1c4f0a4a"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/ccd67c0ffd7ad99b.json",
+      "run_id": "ccd67c0ffd7ad99b",
+      "sha256": "677bff3910e2f83594e4465264bf2f739b2b8b88d0b834862338d91570913f8d"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/d1208c14fa8f3ec8.json",
+      "run_id": "d1208c14fa8f3ec8",
+      "sha256": "01c920d70b71c3e3c2cd535f2e270114494e748f387fea632043596abd578e92"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/d372279dc974f1cc.json",
+      "run_id": "d372279dc974f1cc",
+      "sha256": "5e140c451aa49a751926d6d633a13abddaffa41a8b05783c3acd7b337f267443"
+    },
+    {
+      "bytes": 22999,
+      "event_days": 74,
+      "path": "/data/benchmark-explorer/replays/d81b32aeaa78d97d.json",
+      "run_id": "d81b32aeaa78d97d",
+      "sha256": "78918a8ad820285d6c0f7a98ee38529e339421510c0467182416829669be67a8"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/d85b0d21c3d6bc2c.json",
+      "run_id": "d85b0d21c3d6bc2c",
+      "sha256": "59f250ab1c8498730f4352fd7d6d5ecac37a28544b79e9591293eb74ae9a9331"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/dced9478cecc5d83.json",
+      "run_id": "dced9478cecc5d83",
+      "sha256": "b36787ced4bee4cf93c7649fd846d96f8be39e2f3dae0b2149d3a07b802039de"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/dd77e19f1d652dd5.json",
+      "run_id": "dd77e19f1d652dd5",
+      "sha256": "445970e0d731a9dcbf38939bd08aa57be0a09043b9a46640aeef7c7655526045"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/e0133ebbfe779cd0.json",
+      "run_id": "e0133ebbfe779cd0",
+      "sha256": "f826f4540763bc7a5acbe8b2bc8792912e9039413cfebfa693fecfbe5215f2cd"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/e059df7992175e94.json",
+      "run_id": "e059df7992175e94",
+      "sha256": "6c52a727a98b0af12df93aae82751d39630f5f97c5c72c57067d91f61d293292"
+    },
+    {
+      "bytes": 22999,
+      "event_days": 74,
+      "path": "/data/benchmark-explorer/replays/e062297d8ab29877.json",
+      "run_id": "e062297d8ab29877",
+      "sha256": "369ead8e93567f119bad5d8a7b3ddfdbbfb7e4e09e2f56329eba60e8a38d32eb"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e0c903d420e4b0bf.json",
+      "run_id": "e0c903d420e4b0bf",
+      "sha256": "bf542b9a532e3e2f6e305c9ae1a8d027399dbb4cfd4ce13db9d2118e888d5cb9"
+    },
+    {
+      "bytes": 22957,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e24f64321e6b30f4.json",
+      "run_id": "e24f64321e6b30f4",
+      "sha256": "0200a2b09f2449ad64fdcfd4bee9cc45c9d4233d8b91eaae0f1396610ce65724"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/e4685039a21640a3.json",
+      "run_id": "e4685039a21640a3",
+      "sha256": "430533b8c111bd6b240bb870cba613640c15fdaf8393218210f9078d601f7282"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e5ccbc0aa95f5164.json",
+      "run_id": "e5ccbc0aa95f5164",
+      "sha256": "91efe303260ac8791e0d54e70ca813a8ab90a2b3c96a9b8cfa3b030463260fd7"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e6b981ab839c4529.json",
+      "run_id": "e6b981ab839c4529",
+      "sha256": "50dc19e348aefb699b75d0c7250dd11f958a62c710d81661e56805d78d314d4b"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e6cd382fc8e31a27.json",
+      "run_id": "e6cd382fc8e31a27",
+      "sha256": "d285c9b58996e19a2269ff8075f07641c6d399a52d5dc3f1b3ab4ca8542d3582"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/e6f8b4faacfe81ea.json",
+      "run_id": "e6f8b4faacfe81ea",
+      "sha256": "18912c658f711d1e84a550d2afe0a2231e7d7005ac765828c84684646dd89167"
+    },
+    {
+      "bytes": 22325,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/eb06931a903d49fd.json",
+      "run_id": "eb06931a903d49fd",
+      "sha256": "7b1d51d92b1228224fc9005ff32969756d17557adab7948e4531c4ce32d478aa"
+    },
+    {
+      "bytes": 22541,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/ecae4bb651c0bb8e.json",
+      "run_id": "ecae4bb651c0bb8e",
+      "sha256": "1ea0eecafeb62ac43b97d6e52859c5feb4031343eeff7142e0f5c4712fe492ca"
+    },
+    {
+      "bytes": 22885,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/f44c305b8f3641fd.json",
+      "run_id": "f44c305b8f3641fd",
+      "sha256": "a5e819385f4005eef5caa8f9b6807cce1f49ccf291f68cc4d338eb795e0dbdb0"
+    },
+    {
+      "bytes": 23593,
+      "event_days": 76,
+      "path": "/data/benchmark-explorer/replays/f4b0c0f59932266b.json",
+      "run_id": "f4b0c0f59932266b",
+      "sha256": "1284b39cae787b2cf05be65fc3133756ee170dfd14cf03e90e3ce534c426a0bf"
+    },
+    {
+      "bytes": 25623,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/f9f922bba5c65659.json",
+      "run_id": "f9f922bba5c65659",
+      "sha256": "6c67d776c0b988c0a4f9dc4224d38913d2c1ae6dca452f642849e396080c4f20"
+    },
+    {
+      "bytes": 22956,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/fca9c0cc7ad52ea4.json",
+      "run_id": "fca9c0cc7ad52ea4",
+      "sha256": "8fe021a90d15cbc74447e6f588a41ff449148fe7c64707094324438803f4e883"
+    },
+    {
+      "bytes": 22884,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/fe742236379748c3.json",
+      "run_id": "fe742236379748c3",
+      "sha256": "51bfda45d29a2f57a02e30096a2ed16f05db1d5605179172cd66b897dd255af4"
+    },
+    {
+      "bytes": 25872,
+      "event_days": 82,
+      "path": "/data/benchmark-explorer/replays/ff01085cc106897a.json",
+      "run_id": "ff01085cc106897a",
+      "sha256": "ee1ae8e7267737763d549774ad791064ff463af50bf1c6605e81b45a52ba6153"
+    },
+    {
+      "bytes": 22109,
+      "event_days": 71,
+      "path": "/data/benchmark-explorer/replays/ffc27892e9c86885.json",
+      "run_id": "ffc27892e9c86885",
+      "sha256": "edaf339bcc3fb51af0ff255256c34678f7fc3db1f222295ba8ed64e190487d5c"
+    }
+  ],
+  "scenarios": [
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 6.0,
+          "ci95_low": 0.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2,
+          "ci95_low": 0.2,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 1
+        },
+        "service_rate": {
+          "ci95_high": 0.07317073170731707,
+          "ci95_low": 0.0,
+          "mean": 0.024390243902439025,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "contextual_bandit"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "fifo_routine"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.0,
+          "mean": 1.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 55.6,
+          "ci95_low": 49.6,
+          "mean": 52.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.2,
+          "mean": 1.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2750293753865182,
+          "ci95_low": 0.11169590643274854,
+          "mean": 0.17467929383342917,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 0.6780487804878049,
+          "ci95_low": 0.6048780487804878,
+          "mean": 0.6414634146341464,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "random"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "risk_tier"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "safety_floor"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": null,
+          "ci95_low": null,
+          "mean": null,
+          "n_seeds": 5,
+          "n_valid_seeds": 0
+        },
+        "service_rate": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "tabular_q_learning"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 6.0,
+          "ci95_low": 0.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2,
+          "ci95_low": 0.2,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 1
+        },
+        "service_rate": {
+          "ci95_high": 0.07317073170731707,
+          "ci95_low": 0.0,
+          "mean": 0.024390243902439025,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "contextual_bandit"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "fifo_routine"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.0,
+          "mean": 1.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 55.6,
+          "ci95_low": 49.6,
+          "mean": 52.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.2,
+          "mean": 1.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2739328841584481,
+          "ci95_low": 0.1127923976608187,
+          "mean": 0.17467929383342917,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 0.6780487804878049,
+          "ci95_low": 0.6048780487804878,
+          "mean": 0.6414634146341464,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "random"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "risk_tier"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.2682926829268293,
+          "ci95_low": 0.2682926829268293,
+          "mean": 0.2682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "safety_floor"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 1,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.2,
+          "mean": 2.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.8,
+          "ci95_low": 0.0,
+          "mean": 0.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.2,
+          "mean": 2.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 7.0,
+          "ci95_low": 0.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 2
+        },
+        "service_rate": {
+          "ci95_high": 0.08536585365853658,
+          "ci95_low": 0.0,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "tabular_q_learning"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 4.6,
+          "ci95_low": 0.0,
+          "mean": 2.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 2
+        },
+        "service_rate": {
+          "ci95_high": 0.05609756097560975,
+          "ci95_low": 0.0,
+          "mean": 0.02682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "contextual_bandit"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "fifo_routine"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.0,
+          "mean": 1.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 55.6,
+          "ci95_low": 49.6,
+          "mean": 52.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 1.4,
+          "ci95_low": 0.2,
+          "mean": 0.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.04090136054421769,
+          "ci95_low": 0.003508771929824561,
+          "mean": 0.0199203365556749,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 0.675609756097561,
+          "ci95_low": 0.6048780487804878,
+          "mean": 0.6414634146341464,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "random"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "risk_tier"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "safety_floor"
+    },
+    {
+      "access_probability": 0.8,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 3.0,
+          "ci95_low": 0.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 1
+        },
+        "service_rate": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.0,
+          "mean": 0.012195121951219513,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "tabular_q_learning"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 4.6,
+          "ci95_low": 0.0,
+          "mean": 2.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 2
+        },
+        "service_rate": {
+          "ci95_high": 0.05609756097560975,
+          "ci95_low": 0.0,
+          "mean": 0.02682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "contextual_bandit"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "fifo_routine"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 2.4,
+          "ci95_low": 1.0,
+          "mean": 1.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 2.0,
+          "ci95_low": 0.6,
+          "mean": 1.4,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 55.6,
+          "ci95_low": 49.6,
+          "mean": 52.6,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 1.4,
+          "ci95_low": 0.2,
+          "mean": 0.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.04090136054421769,
+          "ci95_low": 0.003508771929824561,
+          "mean": 0.0199203365556749,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 0.675609756097561,
+          "ci95_low": 0.6048780487804878,
+          "mean": 0.6414634146341464,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "random"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "risk_tier"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 3.0,
+          "ci95_low": 3.0,
+          "mean": 3.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 82.0,
+          "ci95_low": 82.0,
+          "mean": 82.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 2.0,
+          "ci95_low": 2.0,
+          "mean": 2.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.036585365853658534,
+          "ci95_low": 0.036585365853658534,
+          "mean": 0.036585365853658534,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "service_rate": {
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "safety_floor"
+    },
+    {
+      "access_probability": 1.0,
+      "daily_capacity": 2,
+      "metrics": {
+        "actionable_deferred": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_found": {
+          "ci95_high": 0.6,
+          "ci95_low": 0.0,
+          "mean": 0.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_inaccessible": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_queued_unserved": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "actionable_unfound": {
+          "ci95_high": 3.0,
+          "ci95_low": 2.4,
+          "mean": 2.8,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "inspection_attempts": {
+          "ci95_high": 4.6,
+          "ci95_low": 0.0,
+          "mean": 2.2,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "max_queue_depth": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        },
+        "mean_delay_days": {
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n_seeds": 5,
+          "n_valid_seeds": 2
+        },
+        "service_rate": {
+          "ci95_high": 0.056097560975609764,
+          "ci95_low": 0.0,
+          "mean": 0.02682926829268293,
+          "n_seeds": 5,
+          "n_valid_seeds": 5
+        }
+      },
+      "policy": "tabular_q_learning"
+    }
+  ],
+  "schema_version": "benchmark-explorer/v2",
+  "scope": {
+    "ci_interpretation": "95% bootstrap intervals across declared simulation seeds only.",
+    "declared_seeds": [
+      11,
+      23,
+      37,
+      53,
+      71
+    ],
+    "evaluation_actionables": 3,
+    "evaluation_complaints": 82,
+    "limitations": [
+      "Simulator outcomes are counterfactual and do not establish causal dispatch effects.",
+      "The 782-record AHV cohort contains only 16 administrative actionable labels; this is a small simulator-policy study, not a predictive-performance headline.",
+      "Borough slices are operational geography metrics, not demographic fairness measures or proxies."
+    ],
+    "repeated_buildings": 13,
+    "train_complaints": 700
+  },
+  "seed_runs": [
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "40a3447742576647",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "e6cd382fc8e31a27",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "88f36375c0d60518",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "37d239cb964702ff",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.2,
+      "policy": "contextual_bandit",
+      "run_id": "45eede20d9dda729",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "23aab091497b9d8f",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "87553620651b65d3",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "73d0e301c737eb2f",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "ff01085cc106897a",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "24354f464cdf6845",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 1,
+      "actionable_found": 2,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.14035087719298245,
+      "policy": "random",
+      "run_id": "6aedfe843aa5016c",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.3673469387755102,
+      "policy": "random",
+      "run_id": "b694fb9a22f32d0c",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.14583333333333334,
+      "policy": "random",
+      "run_id": "d81b32aeaa78d97d",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.12727272727272726,
+      "policy": "random",
+      "run_id": "298626b5f0cecc80",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.09259259259259259,
+      "policy": "random",
+      "run_id": "689996ad67d6f700",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "879af474b1c106bf",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "3c0bbbbd0a2d2803",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "f9f922bba5c65659",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "5a247284b8e53d9a",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 2,
+      "actionable_inaccessible": 1,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "6745e90a32348952",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "7845ffd5ab059278",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "8cf2b1111533b5de",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "8c96458214d82022",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "238232329fb7f775",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 2,
+      "actionable_inaccessible": 1,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "c4025d079701b86b",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "13731617ed4b7218",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "e0c903d420e4b0bf",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "24a785aa00456773",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "1dfbab1998e40d93",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "2608c6c0434bf285",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "2c4f112a681af885",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "29d84cae6e1be4da",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "56cd1e49519e87cd",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "4b9377e838392a77",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.2,
+      "policy": "contextual_bandit",
+      "run_id": "7ca2ca16d28267d6",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "c4d3a009687c28d2",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "9213bf5f5676ebe8",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "e0133ebbfe779cd0",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "2f662049078422f5",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "fifo_routine",
+      "run_id": "49fcc9a35d47085b",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 1,
+      "actionable_found": 2,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.14035087719298245,
+      "policy": "random",
+      "run_id": "6fccf4e5617f12d1",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.3673469387755102,
+      "policy": "random",
+      "run_id": "5d57b5cd13e6e2aa",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.14583333333333334,
+      "policy": "random",
+      "run_id": "3fb6cfaaaacc04b0",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.12727272727272726,
+      "policy": "random",
+      "run_id": "f4b0c0f59932266b",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.09259259259259259,
+      "policy": "random",
+      "run_id": "e062297d8ab29877",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "97b5acbc3e57b354",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "d85b0d21c3d6bc2c",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "331ce640007eef16",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "e4685039a21640a3",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "risk_tier",
+      "run_id": "1637219bdbf6ef67",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "5b2dfc4d9c858c06",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "e059df7992175e94",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "5d705fb381c104a9",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "68be61c7f73b72fa",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 3,
+      "mean_delay_days": 0.2682926829268293,
+      "policy": "safety_floor",
+      "run_id": "c2fdd3406e3d6da3",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "419e200419e6877f",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "tabular_q_learning",
+      "run_id": "fca9c0cc7ad52ea4",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "99cb4c3c25d62bf8",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "9fc1b86d5461015b",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 1,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "tabular_q_learning",
+      "run_id": "6d894997ecf2d8bf",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "contextual_bandit",
+      "run_id": "3bba142e172c7ecc",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "7fe66c0993f1dd49",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "408e430481400070",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "e6f8b4faacfe81ea",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "contextual_bandit",
+      "run_id": "fe742236379748c3",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "611900783816e9dd",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "239cde14091b94cd",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "90e080d905abe85e",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "197a6bd19205319c",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "20f0887eb6e743d2",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 1,
+      "actionable_found": 2,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.017543859649122806,
+      "policy": "random",
+      "run_id": "6f2ab0d51c7c0408",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.061224489795918366,
+      "policy": "random",
+      "run_id": "3b899bc7c6fd2115",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.020833333333333332,
+      "policy": "random",
+      "run_id": "baf40e5a16a95a0d",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "random",
+      "run_id": "881dd5050f60cf6d",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "random",
+      "run_id": "6863df3606350a27",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "833f722b4c144a66",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "c76f294d3782c367",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "1b058765da78978c",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "aadc4b699413a8c0",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "6426a021f9d1afb4",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "5cfce8795647710b",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "dced9478cecc5d83",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "6337c86462d2fd79",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "5d67bf846bed6d35",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "159d23274951ee34",
+      "seed": 71
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "tabular_q_learning",
+      "run_id": "bcdb6e0d00e5cf93",
+      "seed": 11
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "1dca11f5ac08e1fa",
+      "seed": 23
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "2c4c860b62100339",
+      "seed": 37
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "8f02df254988cb31",
+      "seed": 53
+    },
+    {
+      "access_probability": 0.8,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "2267a2a3c53f67bf",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "contextual_bandit",
+      "run_id": "6ff01bd76655a8bd",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "f44c305b8f3641fd",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "39fee5b5deca265d",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "contextual_bandit",
+      "run_id": "dd77e19f1d652dd5",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "contextual_bandit",
+      "run_id": "5a602fda62e3b680",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "ecae4bb651c0bb8e",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "abab9179bf4d90bd",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "3ba00459ca5d9282",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "56b46599e253d0d9",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "fifo_routine",
+      "run_id": "6ecef2a0d596ed22",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 1,
+      "actionable_found": 2,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 1,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.017543859649122806,
+      "policy": "random",
+      "run_id": "ffc27892e9c86885",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.061224489795918366,
+      "policy": "random",
+      "run_id": "53b89ef8de29a338",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 1,
+      "mean_delay_days": 0.020833333333333332,
+      "policy": "random",
+      "run_id": "05104f9465ce8fb3",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "random",
+      "run_id": "60ebe72315ee1e49",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "random",
+      "run_id": "81c169bce958b0c6",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "d372279dc974f1cc",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "c3b9722c3cb47674",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "d1208c14fa8f3ec8",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "eb06931a903d49fd",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "risk_tier",
+      "run_id": "c45ddb58f5549cb1",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "518bf7ebfea0ab81",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "26843bba24af3ffc",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "e6b981ab839c4529",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "4fedf471b01067c7",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 0,
+      "actionable_found": 3,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 0,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 2,
+      "mean_delay_days": 0.036585365853658534,
+      "policy": "safety_floor",
+      "run_id": "e5ccbc0aa95f5164",
+      "seed": 71
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "tabular_q_learning",
+      "run_id": "959901f3ba791094",
+      "seed": 11
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "34af8202f2da3acf",
+      "seed": 23
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "ccd67c0ffd7ad99b",
+      "seed": 37
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 3,
+      "actionable_found": 0,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 3,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": null,
+      "policy": "tabular_q_learning",
+      "run_id": "e24f64321e6b30f4",
+      "seed": 53
+    },
+    {
+      "access_probability": 1.0,
+      "actionable_deferred": 2,
+      "actionable_found": 1,
+      "actionable_inaccessible": 0,
+      "actionable_queued_unserved": 0,
+      "actionable_unfound": 2,
+      "daily_capacity": 2,
+      "latent_actionable_total": 3,
+      "max_queue_depth": 0,
+      "mean_delay_days": 0.0,
+      "policy": "tabular_q_learning",
+      "run_id": "85101b91e961c55b",
+      "seed": 71
+    }
+  ]
+}

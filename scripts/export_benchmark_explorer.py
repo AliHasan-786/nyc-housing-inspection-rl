@@ -1,7 +1,7 @@
-"""Create a compact, public-safe explorer bundle from a verified benchmark artifact.
+"""Create verified, public-safe static index and replay files from a frozen artifact.
 
-The output deliberately contains aggregates and event-day counts only. It never copies complaint,
-building, address, borough, or restricted-course identifiers into the public web bundle.
+The small index is the only initial web payload. One replay ledger is fetched after a visitor
+chooses a declared run. Neither output copies complaint, building, address, or borough identifiers.
 """
 
 from __future__ import annotations
@@ -9,13 +9,15 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import polars as pl
 
-SCHEMA_VERSION = "benchmark-explorer/v1"
+SCHEMA_VERSION = "benchmark-explorer/v2"
+INDEX_FILENAME = "index.json"
 PUBLIC_COLUMNS = {
     "run_id",
     "policy",
@@ -34,25 +36,54 @@ PUBLIC_COLUMNS = {
 
 
 def export_bundle(
-    *, artifact_dir: Path, config_path: Path, repo_root: Path, output_path: Path
+    *, artifact_dir: Path, config_path: Path, repo_root: Path, output_dir: Path, web_manifest: Path
 ) -> dict[str, Any]:
-    """Verify pinned inputs and emit a deterministic aggregate-only JSON bundle."""
+    """Verify pinned inputs, then emit deterministic index, replay, and browser manifest files."""
 
     manifest = _read_json(artifact_dir / "manifest.json")
     _verify_manifest_outputs(artifact_dir, manifest)
     _verify_sha256(config_path, manifest["inputs"]["config_sha256"], "configuration")
     _verify_source_tree(repo_root, manifest["inputs"]["source_tree"])
-
     decisions = pl.read_parquet(artifact_dir / "decisions.parquet")
     outcomes = pl.read_parquet(artifact_dir / "outcomes.parquet")
     runs = pl.read_parquet(artifact_dir / "runs.parquet")
     summary = _read_json(artifact_dir / "summary.json")
     _validate_input_schemas(decisions=decisions, outcomes=outcomes, runs=runs)
-
     daily = _daily_series(decisions=decisions, outcomes=outcomes)
     _validate_daily_conservation(daily)
     _validate_actionable_partitions(runs)
-    bundle = {
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    replay_directory = output_dir / "replays"
+    replay_directory.mkdir(parents=True, exist_ok=True)
+    seed_runs = _seed_runs(runs)
+    by_run: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in daily:
+        by_run[str(row["run_id"])].append(row)
+    replay_index: list[dict[str, Any]] = []
+    for run in seed_runs:
+        run_id = str(run["run_id"])
+        replay = {
+            "schema_version": SCHEMA_VERSION,
+            "counterfactual": True,
+            "run": run,
+            "event_day_semantics": _event_day_semantics(),
+            "daily_event_series": by_run[run_id],
+        }
+        _assert_public_safe(replay)
+        destination = replay_directory / f"{run_id}.json"
+        digest, size = _write_json(destination, replay)
+        replay_index.append(
+            {
+                "run_id": run_id,
+                "path": f"/data/benchmark-explorer/replays/{run_id}.json",
+                "sha256": digest,
+                "bytes": size,
+                "event_days": len(by_run[run_id]),
+            }
+        )
+
+    index = {
         "schema_version": SCHEMA_VERSION,
         "counterfactual": True,
         "provenance": {
@@ -82,24 +113,34 @@ def export_bundle(
             summary=summary,
             evaluation_complaints=int(manifest["diagnostics"]["evaluation_complaints"]),
         ),
-        "seed_runs": _seed_runs(runs),
-        "daily_event_series": daily,
-        "event_day_semantics": {
-            "day": "Simulator-relative event day, not a calendar date.",
-            "admitted": "Non-deferred decisions recorded on that event day.",
-            "inspection_attempts": "Recorded simulated inspection outcomes on that event day.",
-            "ending_backlog": "Prior ending backlog + admitted - inspection attempts.",
-            "intra_day_max_backlog": None,
-            "intra_day_max_note": (
-                "Not exported: day-level records have no within-day event order, so an exact "
-                "intra-day maximum would be invented."
-            ),
-        },
+        "seed_runs": seed_runs,
+        "replays": sorted(replay_index, key=lambda item: item["run_id"]),
+        "event_day_semantics": _event_day_semantics(),
     }
-    _assert_public_safe(bundle)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(bundle, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    return bundle
+    _assert_public_safe(index)
+    index_path = output_dir / INDEX_FILENAME
+    index_sha256, index_bytes = _write_json(index_path, index)
+    _write_web_manifest(
+        destination=web_manifest,
+        index_sha256=index_sha256,
+        index_bytes=index_bytes,
+        source_revision=str(manifest["inputs"]["git"]["revision"]),
+    )
+    return {"index": index, "index_sha256": index_sha256, "index_bytes": index_bytes}
+
+
+def _event_day_semantics() -> dict[str, Any]:
+    return {
+        "day": "Simulator-relative event day, not a calendar date.",
+        "admitted": "Non-deferred decisions recorded on that event day.",
+        "inspection_attempts": "Recorded simulated inspection outcomes on that event day.",
+        "ending_backlog": "Prior ending backlog + admitted - inspection attempts.",
+        "intra_day_max_backlog": None,
+        "intra_day_max_note": (
+            "Not exported: day-level records have no within-day event order, so an exact "
+            "intra-day maximum would be invented."
+        ),
+    }
 
 
 def _scenario_aggregates(
@@ -117,20 +158,22 @@ def _scenario_aggregates(
     dimensions = ("policy", "daily_capacity", "access_probability")
     for keys, group in runs.group_by(list(dimensions), maintain_order=True):
         policy, capacity, access = keys
-        metrics: dict[str, Any] = {}
-        for metric in (
-            "actionable_found",
-            "actionable_unfound",
-            "actionable_deferred",
-            "actionable_inaccessible",
-            "actionable_queued_unserved",
-            "mean_delay_days",
-            "max_queue_depth",
-        ):
-            item = summary_by_key[(policy, capacity, access, metric)]
-            metrics[metric] = _interval(item)
-        run_ids = group.get_column("run_id").to_list()
-        attempts = [float(outcomes.filter(pl.col("run_id") == run_id).height) for run_id in run_ids]
+        metrics = {
+            metric: _interval(summary_by_key[(policy, capacity, access, metric)])
+            for metric in (
+                "actionable_found",
+                "actionable_unfound",
+                "actionable_deferred",
+                "actionable_inaccessible",
+                "actionable_queued_unserved",
+                "mean_delay_days",
+                "max_queue_depth",
+            )
+        }
+        attempts = [
+            float(outcomes.filter(pl.col("run_id") == run_id).height)
+            for run_id in group.get_column("run_id").to_list()
+        ]
         metrics["inspection_attempts"] = _values_interval(
             attempts, policy, capacity, access, "attempts"
         )
@@ -185,9 +228,8 @@ def _daily_series(*, decisions: pl.DataFrame, outcomes: pl.DataFrame) -> list[di
         backlog = 0
         run_id, policy, capacity, access = run_keys
         for row in group.iter_rows(named=True):
-            admitted = int(row["admitted"])
-            attempts = int(row["inspection_attempts"])
-            backlog = backlog + admitted - attempts
+            admitted, attempts = int(row["admitted"]), int(row["inspection_attempts"])
+            backlog += admitted - attempts
             if backlog < 0:
                 raise ValueError("Inspection attempts exceed reconstructed backlog")
             output.append(
@@ -211,19 +253,21 @@ def _validate_daily_conservation(rows: list[dict[str, Any]]) -> None:
     previous: dict[str, int] = {}
     for row in rows:
         prior = previous.get(str(row["run_id"]), 0)
-        expected = prior + int(row["admitted"]) - int(row["inspection_attempts"])
-        if expected != row["ending_backlog"]:
+        if prior + int(row["admitted"]) - int(row["inspection_attempts"]) != row["ending_backlog"]:
             raise ValueError("Daily backlog conservation failed")
         previous[str(row["run_id"])] = int(row["ending_backlog"])
 
 
 def _validate_actionable_partitions(runs: pl.DataFrame) -> None:
     for row in runs.iter_rows(named=True):
-        partition = (
-            int(row["actionable_found"])
-            + int(row["actionable_deferred"])
-            + int(row["actionable_inaccessible"])
-            + int(row["actionable_queued_unserved"])
+        partition = sum(
+            int(row[key])
+            for key in (
+                "actionable_found",
+                "actionable_deferred",
+                "actionable_inaccessible",
+                "actionable_queued_unserved",
+            )
         )
         if partition != int(row["latent_actionable_total"]):
             raise ValueError("Actionable partition does not reconcile")
@@ -244,8 +288,11 @@ def _values_interval(
     seed = int(
         hashlib.sha256(f"{policy}|{capacity}|{access}|{metric}".encode()).hexdigest()[:8], 16
     )
-    rng = np.random.default_rng(seed)
-    samples = rng.choice(array, size=(2_000, len(array)), replace=True).mean(axis=1)
+    samples = (
+        np.random.default_rng(seed)
+        .choice(array, size=(2_000, len(array)), replace=True)
+        .mean(axis=1)
+    )
     return {
         "mean": float(array.mean()),
         "ci95_low": float(np.quantile(samples, 0.025)),
@@ -296,13 +343,35 @@ def _verify_manifest_outputs(artifact_dir: Path, manifest: dict[str, Any]) -> No
 def _verify_source_tree(repo_root: Path, source_tree: dict[str, Any]) -> None:
     digest = hashlib.sha256()
     for item in source_tree["files"]:
-        path = repo_root / item["path"]
-        contents = path.read_bytes()
+        contents = (repo_root / item["path"]).read_bytes()
         if len(contents) != item["bytes"] or hashlib.sha256(contents).hexdigest() != item["sha256"]:
             raise ValueError(f"source tree does not match artifact provenance: {item['path']}")
         digest.update(item["path"].encode() + b"\0" + contents + b"\0")
     if digest.hexdigest() != source_tree["sha256"]:
         raise ValueError("source-tree aggregate hash does not match artifact provenance")
+
+
+def _write_web_manifest(
+    *, destination: Path, index_sha256: str, index_bytes: int, source_revision: str
+) -> None:
+    source = "\n".join(
+        (
+            "// Generated by scripts/export_benchmark_explorer.py; do not hand-edit.",
+            'export const BENCHMARK_INDEX_PATH = "/data/benchmark-explorer/index.json";',
+            f'export const BENCHMARK_INDEX_SHA256 = "{index_sha256}";',
+            f"export const BENCHMARK_INDEX_BYTES = {index_bytes};",
+            f'export const BENCHMARK_SOURCE_REVISION = "{source_revision}";',
+            "",
+        )
+    )
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(source, encoding="utf-8")
+
+
+def _write_json(path: Path, value: dict[str, Any]) -> tuple[str, int]:
+    encoded = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
+    path.write_bytes(encoded)
+    return hashlib.sha256(encoded).hexdigest(), len(encoded)
 
 
 def _verify_sha256(path: Path, expected: str, label: str) -> None:
@@ -318,10 +387,9 @@ def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _assert_public_safe(bundle: dict[str, Any]) -> None:
-    rendered = json.dumps(bundle, sort_keys=True)
+def _assert_public_safe(value: dict[str, Any]) -> None:
     forbidden = ("complaint_id", "unique_key", "address", "bbl", "borough:")
-    if any(token in rendered.lower() for token in forbidden):
+    if any(token in json.dumps(value, sort_keys=True).lower() for token in forbidden):
         raise ValueError("public bundle contains a forbidden source identifier")
 
 
@@ -330,13 +398,15 @@ def main() -> int:
     parser.add_argument("--artifact-dir", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--repo-root", type=Path, default=Path("."))
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--web-manifest", type=Path, required=True)
     args = parser.parse_args()
     export_bundle(
         artifact_dir=args.artifact_dir,
         config_path=args.config,
         repo_root=args.repo_root,
-        output_path=args.output,
+        output_dir=args.output_dir,
+        web_manifest=args.web_manifest,
     )
     return 0
 

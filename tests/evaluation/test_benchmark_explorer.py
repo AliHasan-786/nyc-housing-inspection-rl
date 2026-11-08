@@ -114,6 +114,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
         "inputs": {
             "config_sha256": _sha(config),
             "silver_sha256": "fixture",
+            "git": {"revision": "fixture", "is_dirty": False, "status_porcelain": []},
             "source_tree": {
                 "sha256": hashlib.sha256(
                     b"src/example.py\0" + source.read_bytes() + b"\0"
@@ -135,16 +136,28 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
 
 def test_export_is_deterministic_safe_and_conserves_backlog(tmp_path: Path) -> None:
     artifact, config, repo = _fixture(tmp_path)
-    first = tmp_path / "one.json"
-    second = tmp_path / "two.json"
+    first = tmp_path / "one"
+    second = tmp_path / "two"
     bundle = export_bundle(
-        artifact_dir=artifact, config_path=config, repo_root=repo, output_path=first
+        artifact_dir=artifact,
+        config_path=config,
+        repo_root=repo,
+        output_dir=first,
+        web_manifest=tmp_path / "one.ts",
     )
-    export_bundle(artifact_dir=artifact, config_path=config, repo_root=repo, output_path=second)
+    export_bundle(
+        artifact_dir=artifact,
+        config_path=config,
+        repo_root=repo,
+        output_dir=second,
+        web_manifest=tmp_path / "two.ts",
+    )
 
-    assert first.read_bytes() == second.read_bytes()
-    assert "private-a" not in first.read_text()
-    assert bundle["daily_event_series"] == [
+    assert (first / "index.json").read_bytes() == (second / "index.json").read_bytes()
+    assert (tmp_path / "one.ts").read_bytes() == (tmp_path / "two.ts").read_bytes()
+    assert "private-a" not in (first / "index.json").read_text()
+    replay = json.loads((first / "replays" / "run.json").read_text())
+    assert replay["daily_event_series"] == [
         {
             "run_id": "run",
             "policy": "fifo_routine",
@@ -158,7 +171,7 @@ def test_export_is_deterministic_safe_and_conserves_backlog(tmp_path: Path) -> N
             "intra_day_max_backlog": None,
         }
     ]
-    assert bundle["event_day_semantics"]["intra_day_max_backlog"] is None
+    assert bundle["index"]["event_day_semantics"]["intra_day_max_backlog"] is None
 
 
 def test_export_rejects_tampered_artifact_or_stale_config(tmp_path: Path) -> None:
@@ -169,7 +182,8 @@ def test_export_rejects_tampered_artifact_or_stale_config(tmp_path: Path) -> Non
             artifact_dir=artifact,
             config_path=config,
             repo_root=repo,
-            output_path=tmp_path / "out.json",
+            output_dir=tmp_path / "out",
+            web_manifest=tmp_path / "out.ts",
         )
 
     artifact, config, repo = _fixture(tmp_path / "stale")
@@ -179,5 +193,6 @@ def test_export_rejects_tampered_artifact_or_stale_config(tmp_path: Path) -> Non
             artifact_dir=artifact,
             config_path=config,
             repo_root=repo,
-            output_path=tmp_path / "out.json",
+            output_dir=tmp_path / "out",
+            web_manifest=tmp_path / "out.ts",
         )

@@ -23,19 +23,22 @@ policy/capacity/access/seed cells; the browser does not calculate a new scenario
 illustrative queue. Aggregate results show seed-only confidence intervals; selecting a seed reveals
 the artifact-derived event-day backlog table.
 
-The bundle at `src/data/benchmark-explorer.json` contains no complaint, building, address, or
-borough identifiers. Regenerate it only from the verified local artifact set:
+The initial `public/data/benchmark-explorer/index.json` and the on-demand files in
+`public/data/benchmark-explorer/replays/` contain no complaint, building, address, or borough
+identifiers. The generated `src/data/benchmark-explorer-manifest.ts` pins the index hash used by
+the browser. Regenerate them only from the verified local artifact set:
 
 ```bash
 uv run python scripts/export_benchmark_explorer.py \
   --artifact-dir artifacts/benchmarks/ahv_temporal_rl_v1_1_correction \
   --config configs/experiments/ahv_temporal_rl_v1_1.json \
   --repo-root . \
-  --output web/src/data/benchmark-explorer.json
+  --output-dir web/public/data/benchmark-explorer \
+  --web-manifest web/src/data/benchmark-explorer-manifest.ts
 ```
 
 The exporter rejects mismatched output/config/source hashes, validates actionable accounting and
-daily backlog conservation, and emits deterministic output.
+daily backlog conservation, and emits deterministic index/replay outputs.
 
 ## Integration boundary
 
