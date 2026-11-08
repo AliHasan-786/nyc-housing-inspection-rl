@@ -1,4 +1,8 @@
-# AHV Temporal Policy Benchmark v1
+# AHV Temporal Policy Benchmark v1 (Provisional; superseded)
+
+> This historical v1 write-up is retained for auditability, but its aggregate result is
+> superseded by the corrected [v1.1 benchmark](ahv-temporal-benchmark-v1_1.md). V1 used
+> incomplete unfound-actionable accounting and a terminal-reward defect; do not cite its table.
 
 ## Result: the learned policies did not beat transparent baselines
 
