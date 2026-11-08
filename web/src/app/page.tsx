@@ -1,107 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import artifact from "@/data/benchmark-explorer.json";
 
-import { type PolicyResult, runPolicyScenario } from "@/lib/policy-api";
-
-type Policy = "fifo" | "risk" | "safety";
+type Policy = "fifo_routine" | "random" | "risk_tier" | "safety_floor" | "contextual_bandit" | "tabular_q_learning";
+type Mode = "aggregate" | number;
+type Interval = { mean: number | null; ci95_low: number | null; ci95_high: number | null };
+type Scenario = { policy: Policy; daily_capacity: number; access_probability: number; metrics: Record<string, Interval> };
+type SeedRun = { run_id: string; policy: Policy; seed: number; daily_capacity: number; access_probability: number; actionable_found: number; actionable_unfound: number; actionable_deferred: number; latent_actionable_total: number; mean_delay_days: number | null };
+type Daily = { run_id: string; policy: Policy; daily_capacity: number; access_probability: number; event_day: number; admitted: number; deferred: number; inspection_attempts: number; ending_backlog: number };
+const bundle = artifact as unknown as { scope: { declared_seeds: number[]; evaluation_actionables: number; evaluation_complaints: number; train_complaints: number; repeated_buildings: number }; provenance: { config_sha256: string; source_tree_sha256: string }; scenarios: Scenario[]; seed_runs: SeedRun[]; daily_event_series: Daily[] };
 
 const policyCopy: Record<Policy, { title: string; label: string; detail: string }> = {
-  fifo: { title: "FIFO / routine", label: "Baseline", detail: "Routes each complaint in arrival order." },
-  risk: { title: "Risk tier", label: "Transparent rule", detail: "Escalates repeat, nighttime, unpermitted signals." },
-  safety: { title: "Safety floor", label: "Guardrailed", detail: "Prevents deferral for declared high-severity signals." },
+  fifo_routine: { title: "FIFO / routine", label: "Baseline", detail: "Routes each complaint in arrival order." },
+  random: { title: "Random", label: "Stress baseline", detail: "Makes declared actions without a learned score." },
+  risk_tier: { title: "Risk tier", label: "Transparent rule", detail: "Escalates repeat, nighttime, unpermitted signals." },
+  safety_floor: { title: "Safety floor", label: "Guardrailed", detail: "Prevents deferral for declared high-severity signals." },
+  contextual_bandit: { title: "Contextual bandit", label: "Learned", detail: "A small seeded simulator baseline, not a deployment candidate." },
+  tabular_q_learning: { title: "Tabular Q-learning", label: "Learned", detail: "A small seeded simulator baseline, not a deployment candidate." },
 };
 
-const apiPolicy: Record<Policy, "fifo_routine" | "risk_tier" | "safety_floor"> = {
-  fifo: "fifo_routine",
-  risk: "risk_tier",
-  safety: "safety_floor",
-};
-
-function Metric({ label, value, note }: { label: string; value: string; note: string }) {
-  return <article className="metric"><p>{label}</p><strong>{value}</strong><span>{note}</span></article>;
-}
+function Metric({ label, value, note }: { label: string; value: string; note: string }) { return <article className="metric"><p>{label}</p><strong>{value}</strong><span>{note}</span></article>; }
+function interval(value: Interval) { return value.mean === null ? "Not comparable" : `${value.mean.toFixed(2)} [${value.ci95_low?.toFixed(2)}, ${value.ci95_high?.toFixed(2)}]`; }
 
 export default function Home() {
-  const [capacity, setCapacity] = useState(2);
-  const [priority, setPriority] = useState(65);
-  const [policy, setPolicy] = useState<Policy>("safety");
-  const [remoteResult, setRemoteResult] = useState<PolicyResult | null>(null);
-  const [activeSignature, setActiveSignature] = useState<string | null>(null);
-  const [runStatus, setRunStatus] = useState<"idle" | "running" | "error">("idle");
-  const scenarioSignature = `${apiPolicy[policy]}-${capacity}-${priority}`;
-  const resultIsCurrent = remoteResult?.policy === apiPolicy[policy] && activeSignature === scenarioSignature;
-  const displayed = resultIsCurrent
-    ? {
-        found: `${remoteResult.actionableFound} / ${remoteResult.complaints}`,
-        delay: remoteResult.meanDelayDays === null ? "Not comparable" : `${remoteResult.meanDelayDays.toFixed(1)} days`,
-        coverage: `${(remoteResult.inspected / remoteResult.complaints * 100).toFixed(0)}%`,
-        review: `${remoteResult.actionableUnfound}`,
-      }
-    : { found: "—", delay: "—", coverage: "—", review: "—" };
-
-  async function runConnectedScenario() {
-    setRunStatus("running");
-    try {
-      setRemoteResult(await runPolicyScenario({
-        snapshotDate: "2026-07-06",
-        dailyCapacity: capacity,
-        accessProbability: 1,
-        safetyPriority: priority / 100,
-        policy: apiPolicy[policy],
-        seed: 0,
-      }));
-      setActiveSignature(scenarioSignature);
-      setRunStatus("idle");
-    } catch {
-      setRunStatus("error");
-    }
-  }
-
+  const [capacity, setCapacity] = useState(1);
+  const [access, setAccess] = useState(1);
+  const [policy, setPolicy] = useState<Policy>("safety_floor");
+  const [mode, setMode] = useState<Mode>("aggregate");
+  const scenario = bundle.scenarios.find((item) => item.policy === policy && item.daily_capacity === capacity && item.access_probability === access)!;
+  const selectedRun = mode === "aggregate" ? null : bundle.seed_runs.find((item) => item.policy === policy && item.daily_capacity === capacity && item.access_probability === access && item.seed === mode)!;
+  const daily = useMemo(() => selectedRun ? bundle.daily_event_series.filter((item) => item.run_id === selectedRun.run_id) : [], [selectedRun]);
+  const attempts = daily.reduce((total, item) => total + item.inspection_attempts, 0);
+  const deferred = daily.reduce((total, item) => total + item.deferred, 0);
+  const display = selectedRun ? { found: `${selectedRun.actionable_found} / ${selectedRun.latent_actionable_total}`, unfound: `${selectedRun.actionable_unfound} / ${selectedRun.latent_actionable_total}`, service: `${(attempts / bundle.scope.evaluation_complaints * 100).toFixed(0)}%`, delay: selectedRun.mean_delay_days === null ? "Not comparable" : `${selectedRun.mean_delay_days.toFixed(1)} days` } : { found: interval(scenario.metrics.actionable_found), unfound: interval(scenario.metrics.actionable_unfound), service: interval(scenario.metrics.service_rate), delay: interval(scenario.metrics.mean_delay_days) };
   return <main>
-    <nav>
-      <a className="brand" href="#top">CIVIC <em>INSPECTION LAB</em></a>
-      <div><a href="#lab">Policy Lab</a><a href="#trust">Safety</a><a href="#evidence">Evidence</a></div>
-    </nav>
-    <section id="top" className="hero">
-      <div>
-        <p className="eyebrow">RESEARCH → PRODUCT → RESPONSIBLE AI</p>
-        <h1>Make public-service tradeoffs <i>visible.</i></h1>
-        <p className="lede">An interactive policy laboratory for exploring how staffing, triage rules, and safety guardrails shape municipal inspection queues.</p>
-        <div className="cta"><a href="#lab">Open Policy Lab <span>↓</span></a><a className="text-link" href="#evidence">Read the evidence</a></div>
-      </div>
-      <aside className="hero-card">
-        <p>THE QUESTION</p>
-        <h2>How should a city use limited inspection capacity without making inequity invisible?</h2>
-        <dl><div><dt>1</dt><dd>bounded decision lab</dd></div><div><dt>0</dt><dd>automated enforcement actions</dd></div><div><dt>100%</dt><dd>human review required</dd></div></dl>
-      </aside>
-    </section>
-    <section className="thesis">
-      <p className="section-label">THE PRODUCT CASE</p>
-      <h2>Technical systems are only useful when people can inspect their assumptions.</h2>
-      <p>Built from Ali Hasan&apos;s published municipal complaint-classification research and a reproducible NYC 311 data pipeline, Civic Inspection Lab turns RL concepts into a product decision surface for operators, policy reviewers, and community stakeholders.</p>
-    </section>
-    <section id="lab" className="lab">
-      <div className="section-head"><div><p className="section-label">INTERACTIVE POLICY LAB</p><h2>Change the policy. See the tradeoff.</h2></div><span className="sim-badge">{resultIsCurrent ? "VERSIONED POLICY RUN" : "RUN REQUIRED"}</span></div>
-      <div className="lab-grid">
-        <aside className="controls">
-          <label>Daily inspection capacity <output>{capacity} teams</output><input type="range" min="1" max="6" value={capacity} onChange={(event) => setCapacity(Number(event.target.value))} /></label>
-          <label>Safety priority <output>{priority}%</output><input type="range" min="20" max="100" value={priority} onChange={(event) => setPriority(Number(event.target.value))} /></label>
-          <fieldset><legend>Policy posture</legend>{(Object.keys(policyCopy) as Policy[]).map((item) => <button key={item} className={policy === item ? "selected" : ""} onClick={() => setPolicy(item)}><span>{policyCopy[item].label}</span>{policyCopy[item].title}</button>)}</fieldset>
-          <button className="run-scenario" onClick={runConnectedScenario} disabled={runStatus === "running"}>{runStatus === "running" ? "Running scenario…" : "Run versioned scenario"}</button>
-          {runStatus === "error" && <p className="connection-note">Policy API unavailable. Metrics are withheld rather than approximated.</p>}
-          <div className="assumption"><b>What this scenario assumes</b><p>Capacity and outcome behavior are scenario inputs. It is not a live city system or causal forecast.</p></div>
-        </aside>
-        <div className="results">
-          <div className="result-title"><div><p>{resultIsCurrent ? `ARTIFACT ${remoteResult.artifactId}` : "SELECT CONTROLS, THEN RUN"}</p><h3>{policyCopy[policy].title}</h3><span>{policyCopy[policy].detail}</span></div><button className="review">Human review required</button></div>
-          <div className="metric-grid"><Metric label="Actionable findings" value={displayed.found} note="simulated discovery"/><Metric label="Average queue delay" value={displayed.delay} note="service responsiveness"/><Metric label="Coverage signal" value={displayed.coverage} note="operational group slice"/><Metric label="Cases for review" value={displayed.review} note="not auto-decided"/></div>
-          <div className="queue-chart"><div className="chart-label"><span>Queue trajectory</span><b>Artifact export pending</b></div><p>A daily queue chart is withheld until this Policy Lab API returns an artifact-backed trajectory, rather than drawing an illustrative curve.</p></div>
-          <div className="action-log"><p>POLICY SEMANTICS</p><div><span className="tag urgent">EXPEDITE</span><b>Prioritize declared operational signals</b><small>Human confirmation before dispatch</small></div><div><span className="tag routine">ROUTINE</span><b>Keep a case visible in the service queue</b><small>Never silently dismiss a complaint</small></div></div>
-        </div>
-      </div>
-    </section>
-    <section id="trust" className="trust"><div><p className="section-label">TRUST &amp; SAFETY BY DESIGN</p><h2>Optimization is not the same as permission.</h2></div><div className="guardrails"><article><b>01</b><h3>Human-in-the-loop</h3><p>No automated enforcement, closure, or legal action. Recommendations require accountable review.</p></article><article><b>02</b><h3>Geography is operational</h3><p>Service coverage and delay can be inspected by borough. Borough is not a demographic fairness proxy.</p></article><article><b>03</b><h3>Uncertainty stays visible</h3><p>Historical outcomes are observational. Simulator output is labeled as counterfactual, not causal evidence.</p></article></div></section>
-    <section id="evidence" className="evidence"><p className="section-label">EVIDENCE &amp; PROVENANCE</p><div><h2>From published research to a reproducible product case study.</h2><ul><li><b>Published foundation</b><span>Ali Hasan is a co-author of <i>Scaling the Queue</i>, arXiv:2605.06482.</span></li><li><b>Data lineage</b><span>Official NYC sources, checksummed snapshots, audited record linkage.</span></li><li><b>Technical depth</b><span>MDP formulation, Gymnasium simulator, baselines, policy logs, and a preliminary seeded RL benchmark.</span></li></ul></div></section>
+    <nav><a className="brand" href="#top">CIVIC <em>INSPECTION LAB</em></a><div><a href="#lab">Explorer</a><a href="#trust">Safety</a><a href="#evidence">Evidence</a></div></nav>
+    <section id="top" className="hero"><div><p className="eyebrow">RESEARCH → PRODUCT → RESPONSIBLE AI</p><h1>Make public-service tradeoffs <i>inspectable.</i></h1><p className="lede">A static, artifact-backed explorer of a frozen NYC inspection-triage benchmark—not a live city system.</p><div className="cta"><a href="#lab">Explore the evidence <span>↓</span></a><a className="text-link" href="#evidence">Read the boundaries</a></div></div><aside className="hero-card"><p>THE QUESTION</p><h2>Does a learned triage policy improve discovery without quietly abandoning service?</h2><dl><div><dt>120</dt><dd>declared simulator runs</dd></div><div><dt>0</dt><dd>automated enforcement actions</dd></div><div><dt>100%</dt><dd>static, reviewable evidence</dd></div></dl></aside></section>
+    <section className="thesis"><p className="section-label">THE PRODUCT CASE</p><h2>Technical systems are only useful when people can inspect their assumptions.</h2><p>This release compares only evaluated policies, capacity, access assumptions, and declared seeds—without arbitrary reward sliders or browser-side simulation.</p></section>
+    <section id="lab" className="lab"><div className="section-head"><div><p className="section-label">FROZEN ARTIFACT EXPLORER</p><h2>Compare declared policies. Inspect the failure mode.</h2></div><span className="sim-badge">V1.1 · CACHED EVIDENCE</span></div><div className="lab-grid"><aside className="controls"><fieldset><legend>Daily capacity — evaluated settings only</legend><div className="choice-row">{[1, 2].map((value) => <button key={value} className={capacity === value ? "selected" : ""} aria-pressed={capacity === value} onClick={() => setCapacity(value)}>{value} team{value === 1 ? "" : "s"}</button>)}</div></fieldset><fieldset><legend>Inspection access assumption</legend><div className="choice-row">{[1, 0.8].map((value) => <button key={value} className={access === value ? "selected" : ""} aria-pressed={access === value} onClick={() => setAccess(value)}>{Math.round(value * 100)}%</button>)}</div></fieldset><fieldset><legend>Policy</legend>{(Object.keys(policyCopy) as Policy[]).map((item) => <button key={item} className={policy === item ? "selected" : ""} aria-pressed={policy === item} onClick={() => setPolicy(item)}><span>{policyCopy[item].label}</span>{policyCopy[item].title}</button>)}</fieldset><fieldset><legend>Evidence view</legend><button className={mode === "aggregate" ? "selected" : ""} aria-pressed={mode === "aggregate"} onClick={() => setMode("aggregate")}><span>All declared seeds</span>Aggregate + 95% seed CI</button>{bundle.scope.declared_seeds.map((seed) => <button key={seed} className={mode === seed ? "selected" : ""} aria-pressed={mode === seed} onClick={() => setMode(seed)}><span>One declared seed</span>Seed {seed}</button>)}</fieldset><div className="assumption"><b>Frozen choices only</b><p>No API, credentials, reward tuning, or policy execution occurs in this browser.</p></div></aside><div className="results"><div className="result-title"><div><p>{mode === "aggregate" ? "AGGREGATE · FIVE DECLARED SEEDS" : `SEED ${mode} · EVENT-DAY RECORD`}</p><h3>{policyCopy[policy].title}</h3><span>{policyCopy[policy].detail}</span></div><span className="review">Counterfactual simulator</span></div><div className="metric-grid"><Metric label="Actionables found" value={display.found} note={mode === "aggregate" ? "mean [95% seed CI]" : "of latent actionables"}/><Metric label="Actionables unfound" value={display.unfound} note="deferred + inaccessible + unserved"/><Metric label="Service rate" value={display.service} note={mode === "aggregate" ? "mean [95% seed CI]" : "inspection attempts / 82"}/><Metric label="Mean delay" value={display.delay} note={mode === "aggregate" ? "mean [95% seed CI]" : "served attempts only"}/></div><div className="queue-chart"><div className="chart-label"><span>Event-day queue record</span><b>{selectedRun ? "OBSERVED FROM ARTIFACT" : "SELECT A SEED TO INSPECT"}</b></div>{selectedRun ? <><p>Ending backlog is reconstructed by conservation. Exact intra-day maxima are intentionally unavailable because the artifact does not store within-day ordering.</p><div className="timeline" aria-label="Event-day backlog table"><div className="timeline-head"><span>Day</span><span>Admit</span><span>Attempt</span><span>Defer</span><span>End backlog</span></div>{daily.map((item) => <div className="timeline-row" key={item.event_day}><span>{item.event_day}</span><span>{item.admitted}</span><span>{item.inspection_attempts}</span><span>{item.deferred}</span><span>{item.ending_backlog}</span></div>)}</div></> : <p>Select any declared seed to inspect its complete event-day series. Aggregate mode never draws an illustrative queue curve.</p>}</div><div className="action-log"><p>INTERPRETATION CHECK</p><div><span className="tag urgent">DEFER ≠ SUCCESS</span><b>{selectedRun ? `${deferred} explicit deferrals in this seed` : `${interval(scenario.metrics.actionable_deferred)} actionable deferrals across seeds`}</b><small>Low end-of-day backlog can reflect cases never admitted to service.</small></div><div><span className="tag routine">ACCOUNTING</span><b>Unfound includes inaccessible and queued/unserved actionables</b><small>Delay is not shown as zero when there is no served denominator.</small></div></div></div></div></section>
+    <section id="trust" className="trust"><div><p className="section-label">TRUST &amp; SAFETY BY DESIGN</p><h2>Optimization is not permission—and a low queue is not automatically good service.</h2></div><div className="guardrails"><article><b>01</b><h3>Counterfactual only</h3><p>No predictive, causal, field-effectiveness, or deployment claim is made from these simulations.</p></article><article><b>02</b><h3>Limits stay visible</h3><p>{bundle.scope.train_complaints} train / {bundle.scope.evaluation_complaints} evaluation complaints, {bundle.scope.evaluation_actionables} evaluation actionables, and {bundle.scope.repeated_buildings} repeated buildings across the split.</p></article><article><b>03</b><h3>No proxy fairness claim</h3><p>Seed-only intervals are not population inference. Operational geography is not a demographic fairness measure or proxy.</p></article></div></section>
+    <section id="evidence" className="evidence"><p className="section-label">EVIDENCE &amp; PROVENANCE</p><div><h2>From coursework prototypes to a constrained, reproducible portfolio case study.</h2><ul><li><b>Original coursework</b><span>Earlier coursework included synthetic, in-sample prototypes; this release does not treat them as real-world validation.</span></li><li><b>Administrative cohort</b><span>The corrected benchmark uses a 700-train / 82-evaluation administrative cohort with counterfactual simulator outcomes.</span></li><li><b>Pinned derivative</b><span>Config {bundle.provenance.config_sha256.slice(0, 12)}… · source tree {bundle.provenance.source_tree_sha256.slice(0, 12)}… · local artifact outputs checksummed.</span></li></ul></div></section>
     <footer><span>© 2026 ALI HASAN</span><span>CIVIC AI / POLICY PRODUCT / RESPONSIBLE SYSTEMS</span></footer>
   </main>;
 }
