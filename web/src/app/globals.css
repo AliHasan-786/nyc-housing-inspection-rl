@@ -5,6 +5,7 @@
   --cream: #ece6d8;
   --orange: #f05a35;
   --accent-text: #a83318;
+  --accent-on-dark: #f05a35;
   --mint: #a8cdb7;
   --annotation-on-light: #365b4c;
   --queue-text: #236248;
@@ -435,6 +436,10 @@ nav div {
   background: var(--ink);
   color: white;
   padding: 100px 8vw;
+}
+
+.trust .section-label {
+  color: var(--accent-on-dark);
 }
 
 .guardrails {

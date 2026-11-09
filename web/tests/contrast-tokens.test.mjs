@@ -7,6 +7,7 @@ const requiredTokens = [
   "surface",
   "ink",
   "accent-text",
+  "accent-on-dark",
   "annotation-on-light",
   "queue-text",
   "focus-on-light",
@@ -34,6 +35,7 @@ for (const [foreground, background, label] of [
   [tokens["accent-text"], tokens.paper, "small accent text on paper"],
   [tokens["annotation-on-light"], tokens.surface, "status text on white"],
   [tokens["queue-text"], "#eef4ef", "chart text on queue panel"],
+  [tokens["accent-on-dark"], tokens.ink, "small trust-section label on dark surface"],
 ]) {
   assert.ok(contrast(foreground, background) >= 4.5, `${label} must meet 4.5:1`);
 }
@@ -46,6 +48,7 @@ for (const [foreground, background, label] of [
 }
 
 assert.match(css, /\.eyebrow,[\s\S]*?color: var\(--accent-text\)/);
+assert.match(css, /\.trust \.section-label\s*\{\s*color: var\(--accent-on-dark\);\s*\}/);
 assert.match(css, /\.result-title p,[\s\S]*?color: var\(--annotation-on-light\)/);
 
 console.log("production contrast token checks: pass");
