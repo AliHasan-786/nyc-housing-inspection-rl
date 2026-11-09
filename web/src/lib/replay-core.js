@@ -16,16 +16,21 @@ export function eventGeometry(days, width = 640) {
   const eventDays = days.map((day) => day.event_day);
   const min = Math.min(...eventDays);
   const max = Math.max(...eventDays);
-  const span = max - min || 1;
 
   return {
     min,
     max,
     points: days.map((day) => ({
       ...day,
-      x: ((day.event_day - min) / span) * width,
+      x: eventDayPosition({ min, max }, day.event_day, width),
     })),
   };
+}
+
+export function eventDayPosition({ min, max }, eventDay, width = 640) {
+  if (min === null || max === null) return null;
+  const span = max - min || 1;
+  return ((eventDay - min) / span) * width;
 }
 
 export function eventDayTicks({ min, max }) {

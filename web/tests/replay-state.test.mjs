@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  eventDayPosition,
   eventDayTicks,
   eventGeometry,
   ReplayLoader,
@@ -55,9 +56,16 @@ const irregular = eventGeometry([
 ], 100);
 assert.deepEqual(irregular.points.map((point) => point.x), [0, 100 / 18, 100]);
 assert.deepEqual(eventDayTicks(irregular), [1, 19, 37]);
+assert.equal(eventDayPosition(irregular, 1, 100), 0);
+assert.equal(eventDayPosition(irregular, 3, 100), 100 / 18);
+assert.equal(eventDayPosition(irregular, 19, 100), 50);
+assert.equal(eventDayPosition(irregular, 37, 100), 100);
 assert.deepEqual(eventGeometry([], 100), { min: null, max: null, points: [] });
-assert.deepEqual(eventGeometry([{ event_day: 5 }], 100).points.map((point) => point.x), [0]);
-assert.deepEqual(eventDayTicks(eventGeometry([{ event_day: 5 }], 100)), [5]);
+assert.equal(eventDayPosition(eventGeometry([], 100), 5, 100), null);
+const singleton = eventGeometry([{ event_day: 5 }], 100);
+assert.deepEqual(singleton.points.map((point) => point.x), [0]);
+assert.equal(eventDayPosition(singleton, 5, 100), 0);
+assert.deepEqual(eventDayTicks(singleton), [5]);
 
 const httpLoader = new ReplayLoader();
 const httpFetch = deferred();

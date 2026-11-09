@@ -1,4 +1,5 @@
 export {
+  eventDayPosition,
   eventDayTicks,
   eventGeometry,
   ReplayLoader,

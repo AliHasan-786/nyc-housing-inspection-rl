@@ -8,6 +8,7 @@ import {
   BENCHMARK_INDEX_SHA256,
 } from "@/data/benchmark-explorer-manifest";
 import {
+  eventDayPosition,
   eventDayTicks,
   eventGeometry,
   ReplayLoader,
@@ -151,10 +152,7 @@ function QueuePlot({ days }: { days: Day[] }) {
     ...days.flatMap((day) => [day.ending_backlog, day.admitted, day.inspection_attempts, day.deferred]),
   );
   const y = (value: number) => top + (1 - value / maxCount) * height;
-  const x = (eventDay: number) => {
-    const point = geometry.points.find((candidate: Day & { x: number }) => candidate.event_day === eventDay);
-    return left + (point?.x ?? 0);
-  };
+  const x = (eventDay: number) => left + (eventDayPosition(geometry, eventDay, width - left - right) ?? 0);
   const backlogGuide = geometry.points
     .map((point: Day & { x: number }, index: number) => `${index ? "L" : "M"} ${left + point.x} ${y(point.ending_backlog)}`)
     .join(" ");
@@ -344,7 +342,7 @@ export default function Home() {
             <p className="section-label">FROZEN ARTIFACT EXPLORER</p>
             <h2>Compare policies. Inspect the failure mode.</h2>
           </div>
-          <span className="sim-badge">{index ? `${(BENCHMARK_INDEX_BYTES / 1024).toFixed(0)} KB INDEX` : "LOADING INDEX"}</span>
+          <span className="sim-badge">{index ? `${(BENCHMARK_INDEX_BYTES / 1024).toFixed(0)} KB INDEX` : indexError ? "INDEX UNAVAILABLE" : "LOADING INDEX"}</span>
         </div>
         <div className="lab-grid">
           <aside className="controls">
@@ -374,7 +372,7 @@ export default function Home() {
           <div className="results">
             <div className="result-title">
               <div>
-                <p>{run ? `SEED ${run.seed} · ${statusLabel}` : index ? "AGGREGATE · FIVE DECLARED SEEDS" : "LOADING VERIFIED INDEX"}</p>
+                <p>{run ? `SEED ${run.seed} · ${statusLabel}` : index ? "AGGREGATE · FIVE DECLARED SEEDS" : indexError ? "VERIFIED INDEX UNAVAILABLE" : "LOADING VERIFIED INDEX"}</p>
                 <h3>{policyCopy[policy].title}</h3>
                 <span>{policyCopy[policy].detail}</span>
               </div>
