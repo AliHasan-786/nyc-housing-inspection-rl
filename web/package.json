@@ -10,7 +10,9 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test:replay": "node tests/replay-state.test.mjs",
-    "test:copy": "node tests/visitor-copy.test.mjs"
+    "test:copy": "node tests/visitor-copy.test.mjs",
+    "test:contrast": "node tests/contrast-tokens.test.mjs",
+    "test:deployment": "node tests/static-deployment-contract.test.mjs"
   },
   "dependencies": {
     "next": "16.2.10",

@@ -1,0 +1,34 @@
+{
+  "id": "rl-housing",
+  "title": "Civic Inspection Lab",
+  "status": "release-review",
+  "deployedUrl": null,
+  "evidenceScope": "A public-safe static explorer of the corrected v1.1 NYC inspection-triage simulator benchmark. Visitors can compare 24 evaluated policy, capacity, and access settings, then inspect one of five declared seed replays. It is not a live city system or a deployment recommendation.",
+  "attribution": {
+    "author": "Ali Hasan",
+    "projectType": "Cornell Tech reinforcement learning coursework extended as a portfolio case study"
+  },
+  "source": {
+    "repository": "https://github.com/AliHasan-786/nyc-housing-inspection-rl",
+    "frozenBenchmarkSourceTreeSha256": "dcc77d46c8f6c02a51cf51ad2d23e0c264e0759d4d9765589e573ccf8677f8ec",
+    "explorerSourceRevision": "2efa76c0b74d03a3b5715acadcb1b4729d4e3422"
+  },
+  "methods": [
+    {
+      "label": "Corrected benchmark protocol",
+      "url": "https://github.com/AliHasan-786/nyc-housing-inspection-rl/blob/main/docs/research/temporal-benchmark-v1_1-correction.md"
+    },
+    {
+      "label": "Methodology",
+      "url": "https://github.com/AliHasan-786/nyc-housing-inspection-rl/blob/main/docs/research/methodology.md"
+    },
+    {
+      "label": "Corrected results",
+      "url": "https://github.com/AliHasan-786/nyc-housing-inspection-rl/blob/main/docs/research/ahv-temporal-benchmark-v1_1.md"
+    }
+  ],
+  "thumbnail": {
+    "path": "/og-civic-inspection-lab.svg",
+    "license": "MIT. Original project asset covered by the repository LICENSE."
+  }
+}

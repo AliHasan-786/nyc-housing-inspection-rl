@@ -1,5 +1,5 @@
 .replay-plot {
-  color: #236248;
+  color: var(--queue-text);
   display: block;
   height: auto;
   margin: 16px 0;
@@ -8,7 +8,7 @@
 }
 
 .replay-plot text {
-  fill: #236248;
+  fill: var(--queue-text);
   font-family: Arial, sans-serif;
   font-size: 11px;
 }
@@ -93,13 +93,17 @@
   opacity: 0.55;
 }
 
-.controls button:focus-visible,
+.controls button:focus-visible {
+  outline: 3px solid var(--focus-on-dark);
+  outline-offset: 3px;
+}
+
 .cta a:focus-visible,
 nav a:focus-visible,
 .evidence a:focus-visible,
 footer a:focus-visible,
 .timeline:focus-visible {
-  outline: 3px solid #a8cdb7;
+  outline: 3px solid var(--focus-on-light);
   outline-offset: 3px;
 }
 

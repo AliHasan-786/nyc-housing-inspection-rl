@@ -1,9 +1,15 @@
 :root {
   --ink: #101d32;
   --paper: #f6f3ed;
+  --surface: #ffffff;
   --cream: #ece6d8;
   --orange: #f05a35;
+  --accent-text: #a83318;
   --mint: #a8cdb7;
+  --annotation-on-light: #365b4c;
+  --queue-text: #236248;
+  --focus-on-light: #0c6849;
+  --focus-on-dark: #f5c542;
   --line: #c8c0b2;
 }
 
@@ -59,7 +65,7 @@ nav div {
 }
 
 .brand em {
-  color: var(--orange);
+  color: var(--accent-text);
   font-style: normal;
 }
 
@@ -73,7 +79,7 @@ nav div {
 
 .eyebrow,
 .section-label {
-  color: var(--orange);
+  color: var(--accent-text);
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1.6px;
@@ -129,13 +135,16 @@ nav div {
   padding: 34px;
 }
 
-.hero-card > p,
-.result-title p,
-.action-log > p {
+.hero-card > p {
   color: var(--mint);
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 1.5px;
+}
+
+.result-title p,
+.action-log > p {
+  color: var(--annotation-on-light);
 }
 
 .hero-card h2 {
@@ -203,8 +212,8 @@ nav div {
 }
 
 .sim-badge {
-  border: 1px solid var(--orange);
-  color: var(--orange);
+  border: 1px solid var(--accent-text);
+  color: var(--accent-text);
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -288,7 +297,7 @@ nav div {
 }
 
 .results {
-  background: #fff;
+  background: var(--surface);
   padding: 34px;
 }
 
@@ -346,7 +355,7 @@ nav div {
 
 .queue-chart {
   background: #eef4ef;
-  color: #236248;
+  color: var(--queue-text);
   padding: 20px;
 }
 
