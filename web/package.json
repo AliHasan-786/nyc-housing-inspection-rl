@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test:replay": "node tests/replay-state.test.mjs"
+    "test:replay": "node tests/replay-state.test.mjs",
+    "test:copy": "node tests/visitor-copy.test.mjs"
   },
   "dependencies": {
     "next": "16.2.10",

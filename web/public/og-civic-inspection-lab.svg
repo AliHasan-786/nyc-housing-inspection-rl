@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">Civic Inspection Lab</title>
-  <desc id="desc">Frozen artifact explorer for inspection-triage policy tradeoffs.</desc>
+  <desc id="desc">Frozen explorer for inspection-triage policy results.</desc>
   <rect width="1200" height="630" fill="#f6f3ed"/>
   <rect x="70" y="70" width="1060" height="490" fill="#101d32"/>
-  <text x="120" y="155" fill="#a8cdb7" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="4">FROZEN ARTIFACT EXPLORER · V1.1</text>
+  <text x="120" y="155" fill="#a8cdb7" font-family="Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="4">FROZEN RESULTS · V1.1</text>
   <text x="120" y="270" fill="#ffffff" font-family="Georgia, serif" font-size="76">Civic Inspection Lab</text>
-  <text x="120" y="340" fill="#ffffff" font-family="Arial, sans-serif" font-size="30">Does a lower queue reflect service—or deferral?</text>
+  <text x="120" y="340" fill="#ffffff" font-family="Arial, sans-serif" font-size="30">Does a lower queue reflect service or deferral?</text>
   <line x1="120" x2="1080" y1="405" y2="405" stroke="#506072"/>
   <text x="120" y="475" fill="#f05a35" font-family="Arial, sans-serif" font-size="40" font-weight="700">700</text><text x="120" y="510" fill="#ffffff" font-family="Arial, sans-serif" font-size="18">train</text>
   <text x="390" y="475" fill="#f05a35" font-family="Arial, sans-serif" font-size="40" font-weight="700">82</text><text x="390" y="510" fill="#ffffff" font-family="Arial, sans-serif" font-size="18">evaluation</text>

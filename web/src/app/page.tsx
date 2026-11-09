@@ -298,7 +298,7 @@ export default function Home() {
           delay: aggregate(scenario.metrics.mean_delay_days, " days"),
           deferrals: aggregate(scenario.metrics.actionable_deferred),
         }
-      : { found: "—", unfound: "—", service: "—", delay: "—", deferrals: "—" };
+      : { found: "Not available", unfound: "Not available", service: "Not available", delay: "Not available", deferrals: "Not available" };
   const statusLabel = evidenceState === "verified" ? "VERIFIED REPLAY" : evidenceState === "unavailable" ? "REPLAY UNAVAILABLE" : "REPLAY PENDING";
 
   return (
@@ -313,17 +313,17 @@ export default function Home() {
       </nav>
       <section id="top" className="hero">
         <div>
-          <p className="eyebrow">RESEARCH → PRODUCT → RESPONSIBLE AI</p>
-          <h1>Make public-service tradeoffs <i>inspectable.</i></h1>
-          <p className="lede">A static, artifact-backed explorer of a frozen NYC inspection-triage benchmark—not a live city system.</p>
+          <p className="eyebrow">NYC INSPECTION-TRIAGE BENCHMARK</p>
+          <h1>Compare inspection policies under the same constraints.</h1>
+          <p className="lede">Compare frozen results across evaluated policies and inspect one recorded seed replay. This is a simulator benchmark, not a city system.</p>
           <div className="cta">
-            <a href="#lab">Explore evidence <span>↓</span></a>
+            <a href="#lab">Compare results <span>↓</span></a>
             <a className="text-link" href="https://github.com/AliHasan-786/nyc-housing-inspection-rl">Source repository</a>
           </div>
         </div>
         <aside className="hero-card">
           <p>THE QUESTION</p>
-          <h2>Does learned triage improve discovery without quietly abandoning service?</h2>
+          <h2>Which policy finds actionables without reducing service?</h2>
           <dl>
             <div><dt>120</dt><dd>declared simulator runs</dd></div>
             <div><dt>0</dt><dd>automated enforcement actions</dd></div>
@@ -332,22 +332,22 @@ export default function Home() {
         </aside>
       </section>
       <section className="thesis">
-        <p className="section-label">THE PRODUCT CASE</p>
-        <h2>Technical systems are only useful when people can inspect their assumptions.</h2>
-        <p>Choose only frozen, evaluated cells. Aggregate results show seed-only uncertainty; a selected replay loads its verified event-day record.</p>
+        <p className="section-label">WHAT TO COMPARE</p>
+        <h2>Compare discovery, service, delay, and deferrals.</h2>
+        <p>Choose a frozen, evaluated policy setting. Aggregate results show seed-only uncertainty. A selected replay loads its verified event-day record.</p>
       </section>
       <section id="lab" className="lab">
         <div className="section-head">
           <div>
-            <p className="section-label">FROZEN ARTIFACT EXPLORER</p>
-            <h2>Compare policies. Inspect the failure mode.</h2>
+            <p className="section-label">FROZEN RESULTS</p>
+            <h2>Compare policies and inspect their recorded outcomes.</h2>
           </div>
           <span className="sim-badge">{index ? `${(BENCHMARK_INDEX_BYTES / 1024).toFixed(0)} KB INDEX` : indexError ? "INDEX UNAVAILABLE" : "LOADING INDEX"}</span>
         </div>
         <div className="lab-grid">
           <aside className="controls">
             <fieldset>
-              <legend>Daily capacity — evaluated only</legend>
+              <legend>Daily capacity: evaluated settings only</legend>
               <div className="choice-row">
                 {[1, 2].map((value) => <button disabled={!index} key={value} className={capacity === value ? "selected" : ""} aria-pressed={capacity === value} onClick={() => setCapacity(value)}>{value} team{value === 1 ? "" : "s"}</button>)}
               </div>
@@ -400,24 +400,24 @@ export default function Home() {
             </div>
             <div className="action-log">
               <p>INTERPRETATION CHECK</p>
-              <div><span className="tag urgent">DEFER ≠ SUCCESS</span><b>{run ? shown.deferrals : scenario ? aggregate(scenario.metrics.actionable_deferred) : "—"}</b><small>Low end-of-day backlog can reflect cases never admitted to service.</small></div>
+              <div><span className="tag urgent">DEFER ≠ SUCCESS</span><b>{run ? shown.deferrals : scenario ? aggregate(scenario.metrics.actionable_deferred) : "Not available"}</b><small>Low end-of-day backlog can reflect cases never admitted to service.</small></div>
               <div><span className="tag routine">MISSING ≠ ZERO</span><b>Unfound includes inaccessible and queued/unserved actionables</b><small>Zero-service delay is not comparable, not a good-looking zero.</small></div>
             </div>
           </div>
         </div>
       </section>
       <section id="methods" className="trust">
-        <div><p className="section-label">TRUST &amp; SAFETY BY DESIGN</p><h2>Optimization is not permission—and a low queue is not automatically good service.</h2></div>
+        <div><p className="section-label">SCOPE AND LIMITS</p><h2>A lower queue can still mean less service.</h2></div>
         <div className="guardrails">
-          <article><b>01</b><h3>Counterfactual only</h3><p>No predictive, causal, field-effectiveness, or deployment claim is made from these simulations.</p></article>
-          <article><b>02</b><h3>Limits stay visible</h3><p>{index ? `${index.scope.train_complaints} train / ${index.scope.evaluation_complaints} evaluation complaints, ${index.scope.evaluation_actionables} actionables, ${index.scope.repeated_buildings} repeated buildings.` : "Verified index loading."}</p></article>
-          <article><b>03</b><h3>No proxy fairness claim</h3><p>Seed-only intervals are not population inference. Operational geography is not a demographic fairness measure or proxy.</p></article>
+          <article><b>01</b><h3>Simulator study</h3><p>These results do not establish predictive accuracy, causal effects, field performance, or deployment readiness.</p></article>
+          <article><b>02</b><h3>Small evaluation set</h3><p>{index ? `${index.scope.train_complaints} train / ${index.scope.evaluation_complaints} evaluation complaints, ${index.scope.evaluation_actionables} actionables, ${index.scope.repeated_buildings} repeated buildings.` : "Verified index loading."}</p></article>
+          <article><b>03</b><h3>Geography is not fairness</h3><p>Seed-only intervals are not population inference. Operational geography is not a demographic fairness measure or proxy.</p></article>
         </div>
       </section>
       <section id="provenance" className="evidence">
         <p className="section-label">EVIDENCE &amp; PROVENANCE</p>
         <div>
-          <h2>From coursework prototypes to a constrained, reproducible case study.</h2>
+          <h2>This project extends an earlier coursework prototype.</h2>
           <ul>
             <li><b>Original coursework</b><span>Earlier coursework included synthetic, in-sample prototypes; this release does not treat them as real-world validation.</span></li>
             <li><b>Methods</b><span><a href="https://github.com/AliHasan-786/nyc-housing-inspection-rl/blob/main/docs/research/temporal-benchmark-v1_1-correction.md">Correction protocol</a> · <a href="https://github.com/AliHasan-786/nyc-housing-inspection-rl/blob/main/docs/research/methodology.md">Methodology</a></span></li>
