@@ -1,3 +1,150 @@
-.replay-plot{color:#236248;display:block;height:auto;margin:16px 0;width:100%}.replay-plot text{fill:#236248;font-family:Arial,sans-serif;font-size:11px}.chart-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px}.chart-legend span:nth-child(2){color:#236248}.chart-legend span:nth-child(3){color:#f05a35}.chart-legend span:nth-child(4){color:#9e280d}.controls button:disabled{cursor:not-allowed;opacity:.55}.controls button:focus-visible,.cta a:focus-visible,nav a:focus-visible,.evidence a:focus-visible,footer a:focus-visible{outline:3px solid #a8cdb7;outline-offset:3px}.evidence a,footer a{color:inherit;text-decoration-thickness:1px}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+.replay-plot {
+  color: #236248;
+  display: block;
+  height: auto;
+  margin: 16px 0;
+  max-width: 100%;
+  width: 100%;
+}
 
-.timeline table{border-collapse:collapse;width:100%}.timeline caption{padding:8px;text-align:left}.timeline th,.timeline td{border-top:1px solid #dce8de;padding:8px;text-align:left}.timeline:focus-visible{outline:3px solid #a8cdb7;outline-offset:3px}.chart-legend span::before{content:"";display:inline-block;height:10px;margin-right:4px;width:10px}.chart-legend span:nth-child(2)::before{border-top:3px solid currentColor}.chart-legend span:nth-child(3)::before{background:repeating-linear-gradient(45deg,currentColor 0 2px,transparent 2px 4px)}.chart-legend span:nth-child(4)::before{background:currentColor;border-radius:50%}
+.replay-plot text {
+  fill: #236248;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+}
+
+.replay-plot .axis,
+.replay-plot .tick {
+  fill: none;
+  stroke: #74907d;
+  stroke-width: 1;
+}
+
+.replay-plot .backlog-guide {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 5 4;
+  stroke-width: 2;
+}
+
+.replay-plot .backlog-mark {
+  fill: #f8f3e8;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.replay-plot .admission-mark {
+  fill: #236248;
+}
+
+.replay-plot .attempt-mark {
+  fill: #f8f3e8;
+  stroke: #f05a35;
+  stroke-width: 2;
+}
+
+.replay-plot .deferral-mark {
+  fill: #9e280d;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 11px;
+}
+
+.chart-legend span {
+  align-items: center;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.legend-marker {
+  display: inline-block;
+  height: 14px;
+  overflow: visible;
+  width: 14px;
+}
+
+.legend-marker.backlog {
+  fill: none;
+  stroke: #236248;
+  stroke-dasharray: 4 2;
+  stroke-width: 2;
+}
+
+.legend-marker.admit rect {
+  fill: #236248;
+}
+
+.legend-marker.attempt circle {
+  fill: #f8f3e8;
+  stroke: #f05a35;
+  stroke-width: 2;
+}
+
+.legend-marker.defer path {
+  fill: #9e280d;
+}
+
+.controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.controls button:focus-visible,
+.cta a:focus-visible,
+nav a:focus-visible,
+.evidence a:focus-visible,
+footer a:focus-visible,
+.timeline:focus-visible {
+  outline: 3px solid #a8cdb7;
+  outline-offset: 3px;
+}
+
+.evidence a,
+footer a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+}
+
+.timeline {
+  overflow-x: auto;
+}
+
+.timeline table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.timeline caption {
+  padding: 8px;
+  text-align: left;
+}
+
+.timeline th,
+.timeline td {
+  border-top: 1px solid #dce8de;
+  padding: 8px;
+  text-align: left;
+}
+
+@media (max-width: 390px) {
+  .chart-legend {
+    gap: 8px;
+  }
+
+  .timeline th,
+  .timeline td {
+    padding: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
