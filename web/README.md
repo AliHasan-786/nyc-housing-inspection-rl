@@ -46,7 +46,7 @@ daily backlog conservation, and emits deterministic index/replay outputs.
 separate contract for the bounded local API, but the public-ready explorer does not depend on it.
 The product preserves data-snapshot, assumption, policy, and counterfactual labels.
 
-## Static deployment preparation
+## Static deployment and public release
 
 The web app is configured for a static export only. `next.config.ts` writes the built site to
 `out/`, and `vercel.json` declares that directory for a Vercel project whose root directory is
@@ -64,6 +64,11 @@ pnpm test:deployment
 ```
 
 The build must contain `out/data/benchmark-explorer/index.json` and the 120 replay files under
-`out/data/benchmark-explorer/replays/`. `public/portfolio-metadata.json` is a public-safe handoff
-record. Its `deployedUrl` stays `null` until a reviewed deployment exists; its source revision
-points to the prior explorer revision rather than to the metadata commit itself.
+`out/data/benchmark-explorer/replays/`.
+
+The reviewed public static explorer is available at
+[`civic-inspection-lab.vercel.app`](https://civic-inspection-lab.vercel.app). Its immutable Vercel
+deployment URL and accepted source revision are recorded in `public/portfolio-metadata.json`.
+That record keeps the separate prior explorer revision sentinel rather than using its own
+containing-metadata revision. The Vercel project has no Git connection, so a source push does not
+create a deployment; do not infer a new release from a later repository commit.

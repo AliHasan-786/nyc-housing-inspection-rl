@@ -1,8 +1,8 @@
 {
   "id": "rl-housing",
   "title": "Civic Inspection Lab",
-  "status": "release-review",
-  "deployedUrl": null,
+  "status": "published",
+  "deployedUrl": "https://civic-inspection-lab.vercel.app",
   "evidenceScope": "A public-safe static explorer of the corrected v1.1 NYC inspection-triage simulator benchmark. Visitors can compare 24 evaluated policy, capacity, and access settings, then inspect one of five declared seed replays. It is not a live city system or a deployment recommendation.",
   "attribution": {
     "author": "Ali Hasan",
@@ -12,6 +12,13 @@
     "repository": "https://github.com/AliHasan-786/nyc-housing-inspection-rl",
     "frozenBenchmarkSourceTreeSha256": "dcc77d46c8f6c02a51cf51ad2d23e0c264e0759d4d9765589e573ccf8677f8ec",
     "explorerSourceRevision": "2efa76c0b74d03a3b5715acadcb1b4729d4e3422"
+  },
+  "release": {
+    "provider": "Vercel",
+    "projectId": "prj_wZnMfxL1YIJPTez5BcnAkzeP9OiL",
+    "deploymentId": "dpl_F2nWSCPQBGWm161RNtzGe9vGjBou",
+    "immutableUrl": "https://civic-inspection-4yu3xquzt-ali-hasans-projects-734a68d1.vercel.app",
+    "acceptedSourceRevision": "b28b0b5fd01a2e131dbc1a9f942b1913f4e15280"
   },
   "methods": [
     {
